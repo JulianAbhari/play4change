@@ -12,11 +12,6 @@ testGameButton.mousePressed(() => {
   selectGame("testGame");
 });
 
-uploadButton = select("#upload");
-uploadButton.mousePressed(() => {
-  window.location.href = "pages/upload.html";
-})
-
 params = new URLSearchParams(window.location.search);
 }
 
