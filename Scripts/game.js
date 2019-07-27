@@ -1,5 +1,7 @@
 function setup(){
 var params = new URLSearchParams(window.location.search);
-gameScript = select("#game");
+
+//Create a new script in game.html and give it the src of the game file(s)
+gameScript = createElement("script", "");
 gameScript.attribute("src", "../Games/"+params.get('game')+".js");
 }

@@ -14,5 +14,5 @@ function delight() {
 }
 
 function gotGame(game){
-//do something
+//Save game file(s) to wherever we store our games (currently Games/ folder)
 }
