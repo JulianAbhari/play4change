@@ -16,30 +16,50 @@
       color: coral;
       padding: 8px;
     }
-    #dropbox{
+
+    #dropbox {
       border-style: dashed;
       width: 50%;
       padding: 16px;
     }
-    h1{
+
+    h1 {
       background-color: bisque;
       padding: 8px;
     }
   </style>
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-database.js"></script>
   <script src="../Libraries/p5.js"></script>
   <script src="../Libraries/p5.dom.js"></script>
   <script src="../Libraries/p5.sound.js"></script>
+  <script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyDoR0UWaZJv954WzyPLuV-Z2_bAAxuveL8",
+    authDomain: "play4change-470f1.firebaseapp.com",
+    databaseURL: "https://play4change-470f1.firebaseio.com",
+    projectId: "play4change-470f1",
+    storageBucket: "play4change-470f1.appspot.com",
+    messagingSenderId: "880047762615",
+    appId: "1:880047762615:web:777da0438e81baa1"
+  };
+</script>
   <script src="../Scripts/upload.js"></script>
 </head>
 
 <body>
   <center>
-  <h1>Play 4 Change!</h1>
-  <!-- No dragging right now :( -->
-  <!-- <p id="dropbox">Drag your game here!</p> -->
-  <p> Upload your file here!</p>
-  <input type="file" id="gameInput" webkitdirectory="true" directory>
-</center>
+    <h1>Play 4 Change!</h1>
+    <!-- No dragging right now :( -->
+    <!-- <p id="dropbox">Drag your game here!</p> -->
+    <p> Upload your file here!</p>
+    <input type="file" id="gamePicker" name="fileList" webkitdirectory multiple />
+    <input type="text" id="gameName" placeholder="What's your game called?">
+    <input type="submit" onclick="submitGame()">
+    <ul id="listing"></ul>
+  </center>
 </body>
 
 </html>
