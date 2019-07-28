@@ -1,18 +1,9 @@
 function setup(){
-  dropbox = select("#dropbox");
-  dropbox.dragOver(highlight);
-  dropbox.dragLeave(delight);
-  dropbox.drop(gotGame, delight);
+  gameInput = select("#gameInput");
+  gameInput.changed(submitGame);
 }
 
-function highlight() {
-  dropbox.style("background-color", "pink");
-}
-
-function delight() {
-  dropbox.style("background-color", "bisque");
-}
-
-function gotGame(game){
-//Save game file(s) to wherever we store our games (currently Games/ folder)
+//This is the function that runs when we submit a folder
+function submitGame(){
+  
 }
