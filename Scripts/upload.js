@@ -12,7 +12,7 @@ function setup() {
   //This executes when the user has selected which files to upload.
   document.getElementById("gameUploader").addEventListener("change", function(event) {
     //Declaring an output variable to access the HTML fileListing elements
-    let output = document.getElementById("listing");
+    let output = document.getElementById("fileListing");
     //Declaring the files to the value that the even returned.
     let files = event.target.files;
     //Iterating through all the files...
@@ -53,6 +53,6 @@ function submitGame() {
       filePath: filePaths
     };
     //Pushing the data to firebase database
-    ref.push(data);
+    ref.set(data);
   }
 }
