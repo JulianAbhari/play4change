@@ -52,7 +52,12 @@ function submitGame() {
       gameName: gameName,
       filePath: filePaths
     };
-    //Pushing the data to firebase database
-    ref.set(data);
+    //Declaring gameEntry to be the information for that particular game
+    //(like the key, the gamename, and the file paths),
+    //while pushing the data to the database.
+    gameEntry = ref.push(data);
+    //Print out an array holding the root database reference point
+    //and the unique key
+    console.log(gameEntry.path.pieces_);
   }
 }
