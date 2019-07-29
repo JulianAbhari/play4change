@@ -1,14 +1,19 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="en">
 
 <head>
   <meta charset="utf-8">
-  <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
-  <title>Michael and Julian Fun Times!</title>
+
+  <title>Play4Change</title>
   <style>
     body {
       padding: 0;
       margin: 0;
+    }
+
+    h1 {
+      background-color: bisque;
+      padding: 8px;
     }
 
     p {
@@ -35,17 +40,17 @@
   <script src="../Libraries/p5.dom.js"></script>
   <script src="../Libraries/p5.sound.js"></script>
   <script>
-  // Your web app's Firebase configuration
-  var firebaseConfig = {
-    apiKey: "AIzaSyDoR0UWaZJv954WzyPLuV-Z2_bAAxuveL8",
-    authDomain: "play4change-470f1.firebaseapp.com",
-    databaseURL: "https://play4change-470f1.firebaseio.com",
-    projectId: "play4change-470f1",
-    storageBucket: "play4change-470f1.appspot.com",
-    messagingSenderId: "880047762615",
-    appId: "1:880047762615:web:777da0438e81baa1"
-  };
-</script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyDoR0UWaZJv954WzyPLuV-Z2_bAAxuveL8",
+      authDomain: "play4change-470f1.firebaseapp.com",
+      databaseURL: "https://play4change-470f1.firebaseio.com",
+      projectId: "play4change-470f1",
+      storageBucket: "play4change-470f1.appspot.com",
+      messagingSenderId: "880047762615",
+      appId: "1:880047762615:web:777da0438e81baa1"
+    };
+  </script>
   <script src="../Scripts/upload.js"></script>
 </head>
 
@@ -55,10 +60,10 @@
     <!-- No dragging right now :( -->
     <!-- <p id="dropbox">Drag your game here!</p> -->
     <p> Upload your file here!</p>
-    <input type="file" id="gamePicker" name="fileList" webkitdirectory multiple />
-    <input type="text" id="gameName" placeholder="What's your game called?">
+    <input type="file" id="gameUploader" name="fileList" webkitdirectory multiple />
+    <input type="text" id="gameNameInputField" placeholder="What would you like to call your game?">
     <input type="submit" onclick="submitGame()">
-    <ul id="listing"></ul>
+    <ul id="fileListing"></ul>
   </center>
 </body>
 

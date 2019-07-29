@@ -86,7 +86,7 @@ function draw() {
 
 function ballUpdate() {
   if (keyIsPressed) {
-    var forceVector = createVector(0,0);
+    var forceVector = createVector(0, 0);
 
     if (keyCode == 65) {
       forceVector.x += -1;

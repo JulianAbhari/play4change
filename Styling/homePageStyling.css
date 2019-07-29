@@ -1,0 +1,45 @@
+p {
+  background-color: bisque;
+  color: blue;
+  padding: 12px;
+}
+
+h1 {
+  background-color: bisque;
+  padding: 12px;
+}
+
+button {
+  background-color: pink;
+  border-color: #FF3366;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0px;
+  padding: 12px;
+  overflow: hidden;
+  background-color: bisque;
+}
+
+li {
+  float: left;
+  border-width: thick;
+  border-color: coral;
+  display: inline-block;
+  padding: 8px;
+  text-align: center;
+}
+
+li a {
+  text-decoration: none;
+  border-color: coral;
+  border-width: thick;
+  color: #FF3366;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+}
