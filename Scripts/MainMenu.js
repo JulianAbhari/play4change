@@ -3,45 +3,49 @@ var time = 0;
 var balls = [];
 
 function setup() {
-  createCanvas(displayWidth, displayHeight);
-  for (var i = 0; i < 35; i += 1) {
-    balls[i] = ellipse(random(0, displayWidth), random(0, displayHeight), 20, 20);
-  }
-  //Creating the button links to the games
-  //TODO: Autogenerate these buttons having them link back
-  //to the respective game from the Games folder
-  ballGameButton = createButton("ballGame!");
-  ballGameButton.position(windowWidth / 3, 200);
-  // () => {} notation to make a function on the fly
-  ballGameButton.mousePressed(() => {
-    selectGame("ballGame");
-  });
-  testGameButton = createButton("testGame!");
-  testGameButton.position(windowWidth * 2 / 3, 200);
-  testGameButton.mousePressed(() => {
-    selectGame("testGame");
-  });
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyDoR0UWaZJv954WzyPLuV-Z2_bAAxuveL8",
+    authDomain: "play4change-470f1.firebaseapp.com",
+    databaseURL: "https://play4change-470f1.firebaseio.com",
+    projectId: "play4change-470f1",
+    storageBucket: "play4change-470f1.appspot.com",
+    messagingSenderId: "880047762615",
+    appId: "1:880047762615:web:777da0438e81baa1"
+  };
+  //Initializing the firebase database and it's current configuration
+  firebase.initializeApp(firebaseConfig);
+  database = firebase.database();
+
+  var ref = database.ref('Games');
+  //Binding callbacks to a specific event called 'value'
+  ref.on('value', loadGames, errorData);
 
   //Setting params to the current URL which we get from the URLSearchParams object
   params = new URLSearchParams(window.location.search);
 }
 
+function loadGames(firebaseData) {
+  var games = firebaseData.val();
+  var keys = Object.keys(games);
+  for (var i = 0; i < keys.length; i += 1) {
+    var k = keys[i];
+    var gameContents = games[k];
+    createButton(gameContents.gameName).attribute("id", k).mousePressed(selectGame)
+  }
+}
+
+function errorData(errorData) {
+  console.log('ERROR:' + errorData);
+}
+
 //This takes the user to the page where the game requested can be played.
 //The title of the game that's requested is set to the 'game' variable inside
 //URL using the params object
-function selectGame(game) {
-  //When a game is selected, send the player to play.html with the gamename
+function selectGame() {
+  //When a game is selected, send the player to play.html with the gamekey
   //parameter in the url (?game="gameName")
-  params.append("game", game);
+  params.append("game", this.attribute("id"));
+  console.log(this.attribute("id"))
   window.location.href = "pages/play.html?" + params;
-}
-
-function draw() {
-  background(255);
-  time += 0.01;
-  fill(200, 100, 178);
-  for (var i = 0; i < 35; i += 1) {
-    balls[i].position.x += map(noise(random(-1, 1)), 0, 1, 0, displayWidth);
-    balls[i].position.y += map(noise(random(-1, 1)), 0, 1, 0, displayHeight);
-  }
 }
