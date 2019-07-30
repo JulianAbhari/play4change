@@ -2,9 +2,22 @@
 var filePaths;
 //Declaring a gameName variable which will later be set to the gameNameInputField
 var gameName;
+var fileUploadPHPurl;
+var filteredFiles;
 
 function setup() {
+  fileUploadPHPurl = "../Scripts/upload.php";
   filePaths = [];
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyDoR0UWaZJv954WzyPLuV-Z2_bAAxuveL8",
+    authDomain: "play4change-470f1.firebaseapp.com",
+    databaseURL: "https://play4change-470f1.firebaseio.com",
+    projectId: "play4change-470f1",
+    storageBucket: "play4change-470f1.appspot.com",
+    messagingSenderId: "880047762615",
+    appId: "1:880047762615:web:777da0438e81baa1"
+  };
   //Initializing the firebase database and it's current configuration
   firebase.initializeApp(firebaseConfig);
 
@@ -25,14 +38,13 @@ function setup() {
       output.appendChild(item);
     }
     //Initializing filtered file array
-    var filteredFiles = filterFiles(files);
+    filteredFiles = filterFiles(files);
     //Iterating through filtered file array
     for (var i = 0; i < filteredFiles.length; i++) {
       //Setting the filePath at the current index to
       //the file path from the sorted array
       filePaths[i] = filteredFiles[i].webkitRelativePath;
     }
-    console.log(filePaths);
   }, false);
 }
 
@@ -43,7 +55,6 @@ function filterFiles(files){
       sortedFiles.push(files[i]);
     }
   }
-  console.log("sortedFiles: " + sortedFiles);
   return sortedFiles;
 }
 
@@ -76,5 +87,51 @@ function submitGame() {
     //Print out an array holding the root database reference point
     //and the unique key
     console.log(gameEntry.path.pieces_);
+
+
+
+    // const formData = new FormData();
+    // for (var i = 0; i<filteredFiles.length; i++){
+    //   formData.append('files[]', filteredFiles[i]);
+    // }
+
+    //var fileBlob = new Blob(filteredFiles, {type: "application/x-javascript"})
+    //console.log(filteredFiles[0].type);
+
+
+  //   fetch(fileUploadPHPurl, {
+  //   method: 'POST',
+  //   body: filteredFiles,
+  // }).then(response => {
+  //   console.log(response);
+  // })
+
+  fetch(fileUploadPHPurl, {
+    method: 'POST'
+  })
+	.then(function (response) {
+		console.log(response);
+	})
+	.then(function (data) {
+		console.log(data);
+	});
+
+
+  // var xhr = new XMLHttpRequest();
+  // xhr.open("POST", fileUploadPHPurl, true);
+  //
+  // //Send the proper header information along with the request
+  // xhr.setRequestHeader("Content-Type", "application/javascript");
+  //
+  // xhr.onreadystatechange = function() { // Call a function when the state changes.
+  //   if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+  //       // Request finished. Do processing here.
+  //       console.log("Request finished");
+  //   } else if(this.readyState === XMLHttpRequest.DONE && this.status === 405){
+  //     console.log("error 405");
+  //   }
+  // }
+  // xhr.send(filteredFiles);
+
   }
 }
