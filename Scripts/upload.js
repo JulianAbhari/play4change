@@ -95,8 +95,7 @@ function submitGame() {
     //   formData.append('files[]', filteredFiles[i]);
     // }
 
-    //var fileBlob = new Blob(filteredFiles, {type: "application/x-javascript"})
-    //console.log(filteredFiles[0].type);
+    var fileBlob = new Blob(filteredFiles, {type: "application/javascript"});
 
 
   //   fetch(fileUploadPHPurl, {
@@ -107,7 +106,8 @@ function submitGame() {
   // })
 
   fetch(fileUploadPHPurl, {
-    method: 'POST'
+    method: 'POST',
+    body: fileBlob
   })
 	.then(function (response) {
 		console.log(response);
