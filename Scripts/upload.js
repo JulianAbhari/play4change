@@ -96,15 +96,7 @@ function submitGame() {
     // }
 
     var fileBlob = new Blob(filteredFiles, {type: "application/javascript"});
-
-
-  //   fetch(fileUploadPHPurl, {
-  //   method: 'POST',
-  //   body: filteredFiles,
-  // }).then(response => {
-  //   console.log(response);
-  // })
-
+    
   fetch(fileUploadPHPurl, {
     method: 'POST',
     body: fileBlob
@@ -115,23 +107,5 @@ function submitGame() {
 	.then(function (data) {
 		console.log(data);
 	});
-
-
-  // var xhr = new XMLHttpRequest();
-  // xhr.open("POST", fileUploadPHPurl, true);
-  //
-  // //Send the proper header information along with the request
-  // xhr.setRequestHeader("Content-Type", "application/javascript");
-  //
-  // xhr.onreadystatechange = function() { // Call a function when the state changes.
-  //   if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-  //       // Request finished. Do processing here.
-  //       console.log("Request finished");
-  //   } else if(this.readyState === XMLHttpRequest.DONE && this.status === 405){
-  //     console.log("error 405");
-  //   }
-  // }
-  // xhr.send(filteredFiles);
-
   }
 }
