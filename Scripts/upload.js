@@ -4,7 +4,7 @@ var filePaths;
 var gameName;
 
 function setup() {
-  filePaths = [String];
+  filePaths = [];
   //Initializing the firebase database and it's current configuration
   firebase.initializeApp(firebaseConfig);
 
@@ -16,18 +16,35 @@ function setup() {
     //Declaring the files to the value that the even returned.
     let files = event.target.files;
     //Iterating through all the files...
-    for (let i = 0; i < files.length; i++) {
+    for (var i = 0; i < files.length; i++) {
       //Creating a new list element for each item
       let item = document.createElement("li");
       //Setting the item's HTML display to the file at index i's relative path.
       item.innerHTML = files[i].webkitRelativePath;
       //Adding a new list element to the parent 'fileListing' element
       output.appendChild(item);
-      //Setting the global filePaths value at index i to
-      //the current file's relative path.
-      filePaths[i] = files[i].webkitRelativePath;
-    };
+    }
+    //Initializing filtered file array
+    var filteredFiles = filterFiles(files);
+    //Iterating through filtered file array
+    for (var i = 0; i < filteredFiles.length; i++) {
+      //Setting the filePath at the current index to
+      //the file path from the sorted array
+      filePaths[i] = filteredFiles[i].webkitRelativePath;
+    }
+    console.log(filePaths);
   }, false);
+}
+
+function filterFiles(files){
+  var sortedFiles = [];
+  for (var i = 0; i < files.length; i++){
+    if (files[i].name != ".DS_Store"){
+      sortedFiles.push(files[i]);
+    }
+  }
+  console.log("sortedFiles: " + sortedFiles);
+  return sortedFiles;
 }
 
 //This function is a callback function for the "submit button" element.
