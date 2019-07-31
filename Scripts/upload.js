@@ -88,24 +88,17 @@ function submitGame() {
     //and the unique key
     console.log(gameEntry.path.pieces_);
 
-
-
-    // const formData = new FormData();
-    // for (var i = 0; i<filteredFiles.length; i++){
-    //   formData.append('files[]', filteredFiles[i]);
-    // }
-
     var fileBlob = new Blob(filteredFiles, {type: "application/javascript"});
-    
-  fetch(fileUploadPHPurl, {
-    method: 'POST',
-    body: fileBlob
-  })
-	.then(function (response) {
-		console.log(response);
-	})
-	.then(function (data) {
-		console.log(data);
-	});
-  }
+
+    fetch(fileUploadPHPurl, {
+      method: 'POST',
+      body: fileBlob
+    })
+	   .then(function (response) {
+		     console.log(response);
+	      })
+	   .then(function (data) {
+		     console.log(data);
+	      });
+    }
 }
