@@ -1,29 +1,28 @@
 var filePaths = []
 var key
 
-function setup() {
-  // Your web app's Firebase configuration
-  var firebaseConfig = {
-    apiKey: "AIzaSyDoR0UWaZJv954WzyPLuV-Z2_bAAxuveL8",
-    authDomain: "play4change-470f1.firebaseapp.com",
-    databaseURL: "https://play4change-470f1.firebaseio.com",
-    projectId: "play4change-470f1",
-    storageBucket: "play4change-470f1.appspot.com",
-    messagingSenderId: "880047762615",
-    appId: "1:880047762615:web:777da0438e81baa1"
-  };
-  //Initializing the firebase database and it's current configuration
-  firebase.initializeApp(firebaseConfig)
-  database = firebase.database()
+// Your web app's Firebase configuration
+var firebaseConfig = {
+  apiKey: "AIzaSyDoR0UWaZJv954WzyPLuV-Z2_bAAxuveL8",
+  authDomain: "play4change-470f1.firebaseapp.com",
+  databaseURL: "https://play4change-470f1.firebaseio.com",
+  projectId: "play4change-470f1",
+  storageBucket: "play4change-470f1.appspot.com",
+  messagingSenderId: "880047762615",
+  appId: "1:880047762615:web:777da0438e81baa1"
+};
+//Initializing the firebase database and it's current configuration
+firebase.initializeApp(firebaseConfig)
+database = firebase.database()
 
-  //Setting params to the current URL which we get from the URLSearchParams object
-  var params = new URLSearchParams(window.location.search)
-  key = params.get('game')
+//Setting params to the current URL which we get from the URLSearchParams object
+var params = new URLSearchParams(window.location.search)
+key = params.get('game')
 
-  var ref = database.ref('Games');
-  //Binding callbacks to a specific event called 'value'
-  ref.on('value', loadFilePaths, errorData);
-}
+var ref = database.ref('Games');
+//Binding callbacks to a specific event called 'value'
+ref.on('value', loadFilePaths, errorData);
+
 
 function loadFilePaths(firebaseData) {
   var games = firebaseData.val();
