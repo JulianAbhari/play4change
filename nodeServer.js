@@ -53,26 +53,27 @@ http.createServer(function(req, res) {
     var busboy = new Busboy({
       headers: req.headers
     });
+    // Declaring local variables so they can be used in all the busboy event handlers
+    var gameKey
     var gameName
     var newGamePath
 
     busboy.on("field", function(fieldName, val) {
+      if (fieldName === "gameKey"){
+        gameKey = val;
+      }
       if (fieldName === "gameName") {
         gameName = val
-        newGamePath = path.join(__dirname, "Games", gameName)
-        if (!fs.existsSync(newGamePath)) {
-          fs.mkdirSync(newGamePath)
-        } else {
-          console.log("Error: New game folder already exists")
-          res.writeHead(500, {"Content-Type": "text/plain"})
-          res.write("Sorry, the submitted game already exists on our servers. For now, please change your game's name and try again.")
-          res.end()
-          return
-        }
       }
     })
     busboy.on("file", function(fieldName, fileStream, fileName) {
       if (fieldName === "gameFiles") {
+        newGamePath = path.join(__dirname, "Games", gameKey, gameName)
+
+        if (!fs.existsSync(newGamePath)) {
+          fs.mkdirSync(newGamePath, {recursive: true})
+        }
+
         var newFilePath = path.join(newGamePath, fileName)
         var writeStream = fs.createWriteStream(newFilePath)
         fileStream.pipe(writeStream)

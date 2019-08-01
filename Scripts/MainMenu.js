@@ -21,7 +21,7 @@ function setup() {
   //Binding callbacks to a specific event called 'value'
   ref.on('value', loadGames, errorData);
 
-  //Setting params to the current URL which we get from the URLSearchParams object
+  //Setting params variable to the current URL which we get from the URLSearchParams object
   params = new URLSearchParams(window.location.search);
 }
 

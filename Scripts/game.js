@@ -27,12 +27,14 @@ ref.on('value', loadFilePaths, errorData);
 function loadFilePaths(firebaseData) {
   var games = firebaseData.val();
   var gameContents = games[key]
+  var gameName = gameContents.gameName
   filePaths = gameContents.filePath
 
   //Create a new script in game.html and give it the src of the game file(s)
   for (var i = 0; i < filePaths.length; i += 1) {
-    console.log("Shoving the following into scipt tags:" + filePaths[i])
-    createElement("script", "").attribute("src", "../Games/" + filePaths[i])
+    var totalFilePath = "../Games/" + key + "/" + gameName + filePaths[i]
+    console.log("Shoving the following into scipt tags:" + totalFilePath)
+    createElement("script", "").attribute("src", totalFilePath)
   }
 }
 
