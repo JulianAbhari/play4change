@@ -32,9 +32,11 @@ function loadFilePaths(firebaseData) {
 
   //Create a new script in game.html and give it the src of the game file(s)
   for (var i = 0; i < filePaths.length; i += 1) {
-    var totalFilePath = "../Games/" + key + "/" + gameName + filePaths[i]
-    console.log("Shoving the following into scipt tags:" + totalFilePath)
-    document.createElement("script").setAttribute("src", totalFilePath)
+    var totalFilePath = "../Games/" + key + "/" + gameName.replace(/%20/g, " ") + "/" + filePaths[i]
+    console.log("Shoving the following into script tags:" + totalFilePath)
+    var scriptElement = document.createElement("SCRIPT")
+    scriptElement.setAttribute("src", totalFilePath)
+    document.head.appendChild(scriptElement)
   }
 }
 

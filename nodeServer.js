@@ -42,6 +42,7 @@ http.createServer(function(req, res) {
   // This is the "/Pages/Upload.html" from "http://127.0.0.1:3000/Pages/Upload.html"
   // Documentation: https://nodejs.org/docs/latest-v10.x/api/url.html#url_url_pathname
   let pathName = parsedUrl.pathname
+  pathName = pathName.replace(/%20/g, " ")
   console.log(`Requested Path: ${pathName}`)
 
   // Returns the extension of the path (.html, .js, .css, etc)
