@@ -69,7 +69,10 @@ http.createServer(function(req, res) {
     })
     busboy.on("file", function(fieldName, fileStream, fileName) {
       if (fieldName === "gameFiles") {
-        newGamePath = path.join(__dirname, "Games", gameKey, gameName)
+        //Parsing the fileName to figure out if we need to make any more new directories
+        var filePathArray = fileName.split("/")
+        fileName = filePathArray.pop()
+        newGamePath = path.join(__dirname, "Games", gameKey, gameName, filePathArray.join("/"))
 
         if (!fs.existsSync(newGamePath)) {
           fs.mkdirSync(newGamePath, {recursive: true})
