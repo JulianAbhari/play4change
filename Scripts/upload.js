@@ -1,6 +1,6 @@
-//Declaring filePaths array to hold the path to each of the uploaded files.
+// Declaring filePaths array to hold the path to each of the uploaded files.
 var filePaths;
-//Declaring a gameName variable which will later be set to the gameNameInputField
+// Declaring a gameName variable which will later be set to the gameNameInputField
 var gameName;
 var fileUploadUrl;
 var filteredFiles;
@@ -18,32 +18,42 @@ function setup() {
     messagingSenderId: "880047762615",
     appId: "1:880047762615:web:777da0438e81baa1"
   };
-  //Initializing the firebase database and it's current configuration
+  // Initializing the firebase database and it's current configuration
   firebase.initializeApp(firebaseConfig);
 
-  //Setting the HTML gameUploader element's callback function
-  //This executes when the user has selected which files to upload.
+  // Setting the HTML gameUploader element's callback function
+  // This executes when the user has selected which files to upload.
   document.getElementById("gameUploader").addEventListener("change", function(event) {
-    //Declaring an output variable to access the HTML fileListing elements
+    // Declaring an output variable to access the HTML fileListing elements
     let output = document.getElementById("fileListing");
-    //Declaring the files to the value that the even returned.
+    // Declaring the files to the value that the even returned.
     let files = event.target.files;
-    //Iterating through all the files...
+    // Iterating through all the files...
     for (var i = 0; i < files.length; i++) {
-      //Creating a new list element for each item
+      // Creating a new list element for each item
       let item = document.createElement("li");
-      //Setting the item's HTML display to the file at index i's relative path.
+      // Setting the item's HTML display to the file at index i's relative path.
       item.innerHTML = files[i].webkitRelativePath;
-      //Adding a new list element to the parent 'fileListing' element
+      // Adding a new list element to the parent 'fileListing' element
       output.appendChild(item);
     }
-    //Initializing filtered file array
+    // Initializing filtered file array
     filteredFiles = filterFiles(files);
-    //Iterating through filtered file array
+    // Iterating through filtered file array
     for (var i = 0; i < filteredFiles.length; i++) {
-      //Setting the filePath at the current index to
-      //the file path from the sorted array
-      filePaths[i] = filteredFiles[i].webkitRelativePath;
+      // Declaring a 'currentRelativePath' variable to the filePath of the
+      // file at the current index.
+      var currentRelativePath = filteredFiles[i].webkitRelativePath
+      // Spliting the currentRelativePath by the "/" character and
+      // turning the currentRelativePath String to an array of substrings
+      currentRelativePath = currentRelativePath.split("/")
+      // Declaring the currentFilePath variable to the
+      // currentRelativePath array without the first element.
+      var currentFilePath = currentRelativePath.shift()
+      // Setting teh global filePaths at the current index
+      // to the currentFilePath array and converting currentFilePath
+      // to a string with each element joined by a "/".
+      filePaths[i] = currentFilePath.join("/")
     }
   }, false);
 }
@@ -89,7 +99,11 @@ function submitGame() {
     console.log(gameEntry.path.pieces_);
 
     var gameData = new FormData();
-    gameData.append("gameName", gameName);
+    // Appending to the form data object, the current gameEntry's pieces
+    // which is an array of where the data is going in Firebase ("/Games")
+    // and the newly created key.
+    gameData.append("gameKey", gameEntry.path.pieces_[1])
+    gameData.append("gameName", gameName)
     for (var i = 0; i < filteredFiles.length; i++) {
       gameData.append("gameFiles", filteredFiles[i]);
     }
