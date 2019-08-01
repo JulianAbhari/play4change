@@ -1,4 +1,4 @@
-var filePaths = []
+//var filePaths = []
 var key
 
 // Your web app's Firebase configuration
@@ -11,35 +11,44 @@ var firebaseConfig = {
   messagingSenderId: "880047762615",
   appId: "1:880047762615:web:777da0438e81baa1"
 };
-//Initializing the firebase database and it's current configuration
+// Initializing the firebase database and it's current configuration
 firebase.initializeApp(firebaseConfig)
 database = firebase.database()
 
-//Setting params to the current URL which we get from the URLSearchParams object
+// Setting params to the current URL which we get from the URLSearchParams object
 var params = new URLSearchParams(window.location.search)
 key = params.get('game')
 
-var ref = database.ref('Games');
-//Binding callbacks to a specific event called 'value'
+// Getting only the game with the requested key from Firebase
+var ref = database.ref('Games/'+key);
+// Binding callbacks to a specific event called 'value'
 ref.on('value', loadFilePaths, errorData);
 
 
 function loadFilePaths(firebaseData) {
-  var games = firebaseData.val();
-  var gameContents = games[key]
-  var gameName = gameContents.gameName
-  filePaths = gameContents.filePath
+  // Initializing game to be the set of info under the certain key in Firebase
+  var game = firebaseData.val();
+  // Initializing gamName (string) and filePaths(array) using the game returned from Firebase
+  var gameName = game["gameName"]
+  var filePaths = game["filePaths"]
 
   //Create a new script in game.html and give it the src of the game file(s)
   for (var i = 0; i < filePaths.length; i += 1) {
+    // Create the complete path to the game files in our file server, and for the gameName
+    // We have to parse it to replace the "%20" with " "
     var totalFilePath = "../Games/" + key + "/" + gameName.replace(/%20/g, " ") + "/" + filePaths[i]
+
+    // Console.log all the files being loaded in script tags for dev purposes
     console.log("Shoving the following into script tags:" + totalFilePath)
+
+    //Creating script tags for each game file and appending them to the game.html header
     var scriptElement = document.createElement("SCRIPT")
     scriptElement.setAttribute("src", totalFilePath)
     document.head.appendChild(scriptElement)
   }
 }
 
+// L33t err0r handling
 function errorData(errorData) {
   console.log('ERROR:' + errorData);
 }

@@ -89,7 +89,7 @@ function submitGame() {
     //Declaring an array of data to be pushed to Firebase Database
     var data = {
       gameName: gameName,
-      filePath: filePaths
+      filePaths: filePaths
     };
     //Declaring gameEntry to be the information for that particular game
     //(like the key, the gamename, and the file paths),
