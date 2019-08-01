@@ -1,3 +1,5 @@
+var flag = null
+
 function setup() {
   EndAllLife = createButton("End all life");
   EndAllLife.mousePressed(endAllLife);
@@ -10,6 +12,8 @@ function setup() {
   x = width / 4 - 50;
   y = height / 3 - 25;
   speed = 10;
+
+  flag = true
 }
 
 function endAllLife() {
@@ -17,6 +21,10 @@ function endAllLife() {
 }
 
 function draw() {
+  if (flag == null) {
+    setup()
+  }
+
   clear();
   fill(0, 255, 0);
   if (life) {

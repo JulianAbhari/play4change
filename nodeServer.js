@@ -1,10 +1,16 @@
 //The link to the magical website that taught us everything we know about node.js:
 //https://glitch.com/edit/#!/node-http?path=server.js:2:31
 
+// Importing web-based protocol module
 var http = require("http");
+// Importing file system module
 var fs = require("fs");
+// Importing path module for concatenating paths
 var path = require("path");
+// Import url module for concatenating url's
 var url = require("url");
+// Declare our Busboy object for parsing multipart/formdata
+var Busboy = require("busboy");
 const port = 3000;
 
 // To look up MIME types
@@ -44,11 +50,44 @@ http.createServer(function(req, res) {
 
   // When the player uploads a new game, upload.js sends us a POST request
   if (req.method === "POST") {
-    req.on('data', function(data) {
-      console.log(data.toString()+"\n\n");
-
+    var busboy = new Busboy({
+      headers: req.headers
     });
+    var gameName
+    var newGamePath
+
+    busboy.on("field", function(fieldName, val) {
+      if (fieldName === "gameName") {
+        gameName = val
+        newGamePath = path.join(__dirname, "Games", gameName)
+        if (!fs.existsSync(newGamePath)) {
+          fs.mkdirSync(newGamePath)
+        } else {
+          console.log("Error: New game folder already exists")
+          res.writeHead(500, {"Content-Type": "text/plain"})
+          res.write("Sorry, the submitted game already exists on our servers. For now, please change your game's name and try again.")
+          res.end()
+          return
+        }
+      }
+    })
+    busboy.on("file", function(fieldName, fileStream, fileName) {
+      if (fieldName === "gameFiles") {
+        var newFilePath = path.join(newGamePath, fileName)
+        var writeStream = fs.createWriteStream(newFilePath)
+        fileStream.pipe(writeStream)
+      }
+    })
+    busboy.on("finish", function() {
+      console.log("POST REQUEST FINISHED")
+      res.writeHead(200, {
+        'Connection': 'close'
+      })
+    })
+    req.pipe(busboy);
   }
+
+  // READ: https://www.sitepoint.com/beginners-guide-node-package-manager/
 
   if (req.method === "GET") {
 
@@ -74,7 +113,7 @@ http.createServer(function(req, res) {
       pathName = '/index.html'
     } else if (!ext) {
       ext = '.html'
-      pathName += ext
+      pahName += ext
     }
 
     // Construct a valid file path so the requested file can be accessed
@@ -104,7 +143,6 @@ http.createServer(function(req, res) {
         "Content-Type": mimeTypes[ext]
       })
       // Read file from the computer and stream it to the response
-      // TODO: Make this actually read from our file server (whatever that is...)
       const fileStream = fs.createReadStream(filePath);
       fileStream.pipe(res);
     })

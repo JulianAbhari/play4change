@@ -16,9 +16,6 @@ function setup() {
   firebase.initializeApp(firebaseConfig)
   database = firebase.database()
 
-  // var ref = database.ref('Games')
-  // //Binding callbacks to a specific event called 'value'
-  // ref.on('value', loadFilePaths, errorData)
   //Setting params to the current URL which we get from the URLSearchParams object
   var params = new URLSearchParams(window.location.search)
   key = params.get('game')
@@ -26,16 +23,6 @@ function setup() {
   var ref = database.ref('Games');
   //Binding callbacks to a specific event called 'value'
   ref.on('value', loadFilePaths, errorData);
-  // httpGet(
-  //   "../Games/ballGame",
-  //   function(data) {
-  //     console.log("DATA INCOMING:");
-  //     console.log(data);
-  //   },
-  //   function(err) {
-  //     console.log(err);
-  //   }
-  // )
 }
 
 function loadFilePaths(firebaseData) {
@@ -45,7 +32,7 @@ function loadFilePaths(firebaseData) {
 
   //Create a new script in game.html and give it the src of the game file(s)
   for (var i = 0; i < filePaths.length; i += 1) {
-    console.log(filePaths[i])
+    console.log("Shoving the following into scipt tags:" + filePaths[i])
     createElement("script", "").attribute("src", "../Games/" + filePaths[i])
   }
 }

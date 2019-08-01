@@ -1,0 +1,22 @@
+{
+  "name": "play4change",
+  "version": "1.0.0",
+  "description": "Raising money for charity while playing games!",
+  "main": "nodeServer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JulianAbhari/play4change.git"
+  },
+  "author": "Julian and Michael BFFs Forever",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JulianAbhari/play4change/issues"
+  },
+  "homepage": "https://github.com/JulianAbhari/play4change#readme",
+  "dependencies": {
+    "busboy": "^0.3.1"
+  }
+}

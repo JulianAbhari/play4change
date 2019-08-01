@@ -2,11 +2,11 @@
 var filePaths;
 //Declaring a gameName variable which will later be set to the gameNameInputField
 var gameName;
-var fileUploadPHPurl;
+var fileUploadUrl;
 var filteredFiles;
 
 function setup() {
-  fileUploadPHPurl = "../Scripts/upload.php";
+  fileUploadUrl = "../nodeServer.js";
   filePaths = [];
   // Your web app's Firebase configuration
   var firebaseConfig = {
@@ -48,10 +48,10 @@ function setup() {
   }, false);
 }
 
-function filterFiles(files){
+function filterFiles(files) {
   var sortedFiles = [];
-  for (var i = 0; i < files.length; i++){
-    if (files[i].name != ".DS_Store"){
+  for (var i = 0; i < files.length; i++) {
+    if (files[i].name != ".DS_Store") {
       sortedFiles.push(files[i]);
     }
   }
@@ -88,17 +88,22 @@ function submitGame() {
     //and the unique key
     console.log(gameEntry.path.pieces_);
 
-    var fileBlob = new Blob(filteredFiles, {type: "application/javascript"});
-
-    fetch(fileUploadPHPurl, {
-      method: 'POST',
-      body: fileBlob
-    })
-	   .then(function (response) {
-		     console.log(response);
-	      })
-	   .then(function (data) {
-		     console.log(data);
-	      });
+    var gameData = new FormData();
+    gameData.append("gameName", gameName);
+    for (var i = 0; i < filteredFiles.length; i++) {
+      gameData.append("gameFiles", filteredFiles[i]);
     }
+
+    fetch(fileUploadUrl, {
+        method: 'POST',
+        body: gameData
+      })
+      .then(function(response) {
+        console.log(response);
+        window.location.href = "/"
+      })
+      .then(function(data) {
+        console.log(data);
+      });
+  }
 }
