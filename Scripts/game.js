@@ -34,7 +34,7 @@ function loadFilePaths(firebaseData) {
   for (var i = 0; i < filePaths.length; i += 1) {
     var totalFilePath = "../Games/" + key + "/" + gameName + filePaths[i]
     console.log("Shoving the following into scipt tags:" + totalFilePath)
-    createElement("script", "").attribute("src", totalFilePath)
+    document.createElement("script").setAttribute("src", totalFilePath)
   }
 }
 

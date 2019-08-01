@@ -46,14 +46,15 @@ function setup() {
       var currentRelativePath = filteredFiles[i].webkitRelativePath
       // Spliting the currentRelativePath by the "/" character and
       // turning the currentRelativePath String to an array of substrings
-      currentRelativePath = currentRelativePath.split("/")
+      var currentFilePath = currentRelativePath.split("/")
       // Declaring the currentFilePath variable to the
       // currentRelativePath array without the first element.
-      var currentFilePath = currentRelativePath.shift()
+      currentFilePath.shift()
       // Setting teh global filePaths at the current index
       // to the currentFilePath array and converting currentFilePath
       // to a string with each element joined by a "/".
       filePaths[i] = currentFilePath.join("/")
+      console.log(filePaths[i])
     }
   }, false);
 }
