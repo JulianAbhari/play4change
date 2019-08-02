@@ -81,27 +81,23 @@ function draw() {
 }
 
 function ballUpdate() {
-  if (keyIsPressed) {
-    var forceVector = createVector(0, 0);
+  var forceVector = createVector(0, 0);
 
-    if (keyCode == 65) {
-      forceVector.x += -1;
-      console.log("a is pressed")
-    }
-    if (keyCode == 68) {
-      forceVector.x += 1;
-      console.log("d is pressed")
-    }
-    if (keyCode == 87) {
-      forceVector.y += -1;
-      console.log("w is pressed")
-    }
-    if (keyCode == 83) {
-      forceVector.y += 1;
-      console.log("s is pressed")
-    }
-    applyForce(forceVector);
+  if (keyIsDown(65)) {
+    forceVector.x += -1;
+    console.log("a is pressed")
+  } else if (keyIsDown(68)) {
+    forceVector.x += 1;
+    console.log("d is pressed")
   }
+  if (keyIsDown(87)) {
+    forceVector.y += -1;
+    console.log("w is pressed")
+  } else if (keyIsDown(83)) {
+    forceVector.y += 1;
+    console.log("s is pressed")
+  }
+  applyForce(forceVector);
 
   velocity.add(acceleration);
   position.add(velocity);

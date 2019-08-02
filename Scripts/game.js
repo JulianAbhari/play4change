@@ -16,6 +16,7 @@ database = firebase.database()
 
 // Setting params to the current URL which we get from the URLSearchParams object
 var params = new URLSearchParams(window.location.search)
+console.log(params.get("game"))
 key = params.get('game')
 
 // Getting only the game with the requested key from Firebase
@@ -27,7 +28,7 @@ ref.on('value', loadFilePaths, errorData);
 function loadFilePaths(firebaseData) {
   // Initializing game to be the set of info under the certain key in Firebase
   var game = firebaseData.val();
-  // Initializing gamName (string) and filePaths(array) using the game returned from Firebase
+  // Initializing gameName (string) and filePaths(array) using the game returned from Firebase
   var gameName = game["gameName"]
   var filePaths = game["filePaths"]
 
@@ -38,7 +39,7 @@ function loadFilePaths(firebaseData) {
     var totalFilePath = "../Games/" + key + "/" + gameName.replace(/%20/g, " ") + "/" + filePaths[i]
 
     // Console.log all the files being loaded in script tags for dev purposes
-    console.log("Shoving the following into script tags:" + totalFilePath)
+    console.log("Loading the following into script tags:" + totalFilePath)
 
     //Creating script tags for each game file and appending them to the game.html header
     var scriptElement = document.createElement("SCRIPT")
@@ -46,7 +47,6 @@ function loadFilePaths(firebaseData) {
     document.head.appendChild(scriptElement)
   }
 }
-
 
 // L33t err0r handling
 function errorData(errorData) {
