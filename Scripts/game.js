@@ -1,4 +1,3 @@
-//var filePaths = []
 var key
 
 // Your web app's Firebase configuration
@@ -20,7 +19,7 @@ var params = new URLSearchParams(window.location.search)
 key = params.get('game')
 
 // Getting only the game with the requested key from Firebase
-var ref = database.ref('Games/'+key);
+var ref = database.ref('Games/' + key);
 // Binding callbacks to a specific event called 'value'
 ref.on('value', loadFilePaths, errorData);
 
@@ -32,7 +31,7 @@ function loadFilePaths(firebaseData) {
   var gameName = game["gameName"]
   var filePaths = game["filePaths"]
 
-  //Create a new script in game.html and give it the src of the game file(s)
+  // Create a new script in game.html and give it the src of the game file(s)
   for (var i = 0; i < filePaths.length; i += 1) {
     // Create the complete path to the game files in our file server, and for the gameName
     // We have to parse it to replace the "%20" with " "
@@ -47,6 +46,7 @@ function loadFilePaths(firebaseData) {
     document.head.appendChild(scriptElement)
   }
 }
+
 
 // L33t err0r handling
 function errorData(errorData) {

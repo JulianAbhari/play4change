@@ -13,9 +13,9 @@ var velocity;
 var position;
 var radius;
 var mass;
-var flag = null;
 
 function setup() {
+  console.log("Setup function is executing!")
   changeColorButton = createButton("ZOOM! BOING! DING!");
   changeColorButton.mousePressed(changeBallColor);
   stopButton = createButton("STOP!");
@@ -40,7 +40,7 @@ function setup() {
   acceleration = createVector(0, 0);
 
   console.log("this should only occur once");
-  flag = true;
+  //flag = true;
 }
 
 function changeStyle() {
@@ -72,10 +72,6 @@ function applyForce(force) {
 }
 
 function draw() {
-  if (flag == null) {
-    setup();
-  }
-
   background(100);
   noStroke();
   fill(ballColor);
