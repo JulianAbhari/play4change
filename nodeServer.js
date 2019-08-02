@@ -51,6 +51,16 @@ http.createServer(function(req, res) {
 
   // When the player uploads a new game, upload.js sends us a POST request
   if (req.method === "POST") {
+    // var body = ''
+    // req.on('data', chunk => {
+    //   console.log("putting data in body")
+    //   body += chunk.toString()
+    // })
+    // req.on('end', () => {
+    //   console.log(body)
+    //   res.end("ok")
+    // })
+
     var busboy = new Busboy({
       headers: req.headers
     });
@@ -60,7 +70,7 @@ http.createServer(function(req, res) {
     var newGamePath
 
     busboy.on("field", function(fieldName, val) {
-      if (fieldName === "gameKey"){
+      if (fieldName === "gameKey") {
         gameKey = val;
       }
       if (fieldName === "gameName") {
@@ -70,12 +80,18 @@ http.createServer(function(req, res) {
     busboy.on("file", function(fieldName, fileStream, fileName) {
       if (fieldName === "gameFiles") {
         //Parsing the fileName to figure out if we need to make any more new directories
+        console.log("fileName: " + fileName)
         var filePathArray = fileName.split("/")
+        console.log("filePathArray: " + filePathArray)
         fileName = filePathArray.pop()
+        console.log("fileName: " + fileName)
         newGamePath = path.join(__dirname, "Games", gameKey, gameName, filePathArray.join("/"))
-
+        console.log("filePathArray.join('/'): " + filePathArray.join('/'))
+        console.log("newGamePath" + newGamePath)
         if (!fs.existsSync(newGamePath)) {
-          fs.mkdirSync(newGamePath, {recursive: true})
+          fs.mkdirSync(newGamePath, {
+            recursive: true
+          })
         }
 
         var newFilePath = path.join(newGamePath, fileName)
