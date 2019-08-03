@@ -41,10 +41,13 @@ function loadFilePaths(firebaseData) {
     // Console.log all the files being loaded in script tags for dev purposes
     console.log("Loading the following into script tags:" + totalFilePath)
 
-    //Creating script tags for each game file and appending them to the game.html header
+    // Creating script tags for each game file and appending them to the game.html header
     var scriptElement = document.createElement("SCRIPT")
     scriptElement.setAttribute("src", totalFilePath)
+    console.log("totalFilePath: " + totalFilePath)
     document.head.appendChild(scriptElement)
+
+    // IDEA: comment the p5 libraries out of game.html, then add them right here AFTER adding the script
   }
 }
 

@@ -1,4 +1,5 @@
 var flag = null;
+console.log("test game pre setup")
 
 function setup() {
   createCanvas(1000, 1000);
