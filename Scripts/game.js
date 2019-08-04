@@ -46,9 +46,24 @@ function loadFilePaths(firebaseData) {
     scriptElement.setAttribute("src", totalFilePath)
     console.log("totalFilePath: " + totalFilePath)
     document.head.appendChild(scriptElement)
-
-    // IDEA: comment the p5 libraries out of game.html, then add them right here AFTER adding the script
   }
+  // IDEA: comment the p5 libraries out of game.html, then add them right
+  // here AFTER adding the script
+
+  var p5MainScript = document.createElement("SCRIPT")
+  p5MainScript.setAttribute("src", "../Libraries/p5.js")
+  document.head.appendChild(p5MainScript)
+
+  var p5DomScript = document.createElement("SCRIPT")
+  p5DomScript.setAttribute("src", "../Libraries/p5.dom.js")
+  document.head.appendChild(p5DomScript)
+
+  var p5SoundScript = document.createElement("SCRIPT")
+  p5SoundScript.setAttribute("src", "../Libraries/p5.sound.js")
+  document.head.appendChild(p5SoundScript)
+
+  // OBSERVATIONS: The selected game works even by having its libraries
+  // added in after the game, like what's shown above.
 }
 
 // L33t err0r handling
