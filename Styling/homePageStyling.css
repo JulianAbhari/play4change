@@ -44,6 +44,10 @@ body {
   overflow: visible;
 }
 
+iframe {
+  border: none;
+}
+
 #dropbox {
   border-style: dashed;
   width: 50%;
