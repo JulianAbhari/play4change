@@ -62,5 +62,5 @@ function selectGame() {
   //When a game is selected, send the player to play.html with the gamekey
   //parameter in the url (?game="gameName")
   params.append("game", this.attribute("id"));
-  window.location.href = "pages/play.html?" + params;
+  window.location.href = "pages/play?" + params;
 }

@@ -134,7 +134,7 @@ http.createServer(function(req, res) {
       pathName = '/index.html'
     } else if (!ext) {
       ext = '.html'
-      pahName += ext
+      pathName += ext
     }
 
     // Construct a valid file path so the requested file can be accessed

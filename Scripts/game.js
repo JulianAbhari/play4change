@@ -43,23 +43,37 @@ function loadFilePaths(firebaseData) {
 
     //Creating script tags for each game file and appending them to the game.html header
     var scriptElement = document.createElement("SCRIPT")
-    scriptElement.setAttribute("src", totalFilePath)
+    scriptElement.src = totalFilePath
+    // Manually overriding dynamically added script's async
+    scriptElement.async = false
     document.head.appendChild(scriptElement)
   }
   // IDEA: comment the p5 libraries out of game.html, then add them right
   // here AFTER adding the script
 
+  console.log("Loading the p5 libraries into script tags")
+
+  // Manually set all scripts' async to false, because I read here that
+  // dynamically added script are async by default, which would screw up the order,
+  // And it works!
+  // https://www.html5rocks.com/en/tutorials/speed/script-loading/
+
+  // Now, our problem is determining which libraries to load first when the user
+  // gives us their game... and then to actually have the game WORK
+  var p5MainScript = document.createElement("SCRIPT")
+  p5MainScript.src = "../Libraries/p5.js"
+  p5MainScript.async = false
+  document.head.appendChild(p5MainScript)
+
   var p5SoundScript = document.createElement("SCRIPT")
-  p5SoundScript.setAttribute("src", "../Libraries/p5.sound.js")
+  p5SoundScript.src = "../Libraries/p5.sound.js"
+  p5SoundScript.async = false
   document.head.appendChild(p5SoundScript)
 
   var p5DomScript = document.createElement("SCRIPT")
-  p5DomScript.setAttribute("src", "../Libraries/p5.dom.js")
+  p5DomScript.src = "../Libraries/p5.dom.js"
+  p5DomScript.async = false
   document.head.appendChild(p5DomScript)
-
-  var p5MainScript = document.createElement("SCRIPT")
-  p5MainScript.setAttribute("src", "../Libraries/p5.js")
-  document.head.appendChild(p5MainScript)
 
   // OBSERVATIONS: The selected game works even by having its libraries
   // added in after the game, like what's shown above.
