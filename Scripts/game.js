@@ -1,5 +1,7 @@
 var urlKey
-var names = ["Julian", "Michael"]
+var gameName
+var filePaths
+var date
 
 // Your web app's Firebase configuration
 var firebaseConfig = {
@@ -29,54 +31,68 @@ function loadFilePaths(firebaseData) {
   // Initializing game to be the set of info under the certain key in Firebase
   var game = firebaseData.val();
   // Initializing gameName (string) and filePaths(array) using the game returned from Firebase
-  var gameName = game["gameName"]
-  var filePaths = game["filePaths"]
+  gameName = game["gameName"]
+  filePaths = game["filePaths"]
 
+  date = new Date()
+  console.log(`Loading p5.js at ${date.getTime()}`)
+  createScript("../Libraries/p5.js", loadP5Libraries)
+
+
+  // // Create a new script in game.html and give it the src of the game file(s)
+  // for (var i = 0; i < filePaths.length; i += 1) {
+  //   // Create the complete path to the game files in our file server, and for the gameName
+  //   // We have to parse it to replace the "%20" with " "
+  //   var totalFilePath = "../Games/" + urlKey + "/" + gameName.replace(/%20/g, " ") + "/" + filePaths[i]
+  //
+  //   // Console.log all the files being loaded in script tags for dev purposes
+  //   console.log("Loading the following into script tags:" + totalFilePath)
+  //
+  //   //Creating script tags for each game file and appending them to the game.html header
+  //   createScript(totalFilePath)
+  // }
+
+  //console.log("Loading the p5 libraries into script tags")
+
+  // Now, our problem is determining which libraries to load first when the user
+  // gives us their game... and then to actually have the game WORK
+
+  // createScript("../Libraries/p5.js")
+  // createScript("../Libraries/p5.dom.js")
+  // createScript("../Libraries/p5.sound.js")
+}
+
+function loadP5Libraries() {
+  date = new Date()
+  console.log(`Loading other libraries at ${date.getTime()}`)
+  createScript("../Libraries/p5.dom.js", loadGameScripts)
+}
+
+function loadGameScripts() {
   // Create a new script in game.html and give it the src of the game file(s)
   for (var i = 0; i < filePaths.length; i += 1) {
+
     // Create the complete path to the game files in our file server, and for the gameName
     // We have to parse it to replace the "%20" with " "
     var totalFilePath = "../Games/" + urlKey + "/" + gameName.replace(/%20/g, " ") + "/" + filePaths[i]
 
     // Console.log all the files being loaded in script tags for dev purposes
-    console.log("Loading the following into script tags:" + totalFilePath)
+    date = new Date()
+    console.log(`Loading into script tags: ${totalFilePath} at ${date.getTime()}`)
 
     //Creating script tags for each game file and appending them to the game.html header
-    var scriptElement = document.createElement("SCRIPT")
-    scriptElement.src = totalFilePath
-    // Manually overriding dynamically added script's async
-    scriptElement.async = false
-    document.head.appendChild(scriptElement)
+    createScript(totalFilePath, function(){
+      new p5();
+    })
   }
-  // IDEA: comment the p5 libraries out of game.html, then add them right
-  // here AFTER adding the script
+}
 
-  console.log("Loading the p5 libraries into script tags")
-
-  // Manually set all scripts' async to false, because I read here that
-  // dynamically added script are async by default, which would screw up the order,
-  // And it works!
-  // https://www.html5rocks.com/en/tutorials/speed/script-loading/
-
-  // Now, our problem is determining which libraries to load first when the user
-  // gives us their game... and then to actually have the game WORK
-  var p5MainScript = document.createElement("SCRIPT")
-  p5MainScript.src = "../Libraries/p5.js"
-  p5MainScript.async = false
-  document.head.appendChild(p5MainScript)
-
-  var p5SoundScript = document.createElement("SCRIPT")
-  p5SoundScript.src = "../Libraries/p5.sound.js"
-  p5SoundScript.async = false
-  document.head.appendChild(p5SoundScript)
-
-  var p5DomScript = document.createElement("SCRIPT")
-  p5DomScript.src = "../Libraries/p5.dom.js"
-  p5DomScript.async = false
-  document.head.appendChild(p5DomScript)
-
-  // OBSERVATIONS: The selected game works even by having its libraries
-  // added in after the game, like what's shown above.
+function createScript(filePath, onload = null) {
+  var newScript = document.createElement("SCRIPT")
+  newScript.src = filePath
+  newScript.async = false
+  newScript.onload = onload
+  document.head.appendChild(newScript)
 }
 
 // L33t err0r handling
