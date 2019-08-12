@@ -26,7 +26,6 @@ var ref = database.ref('Games/' + urlKey);
 // Binding callbacks to a specific event called 'value'
 ref.on('value', loadFilePaths, errorData);
 
-
 function loadFilePaths(firebaseData) {
   // Initializing game to be the set of info under the certain key in Firebase
   var game = firebaseData.val();
@@ -98,4 +97,15 @@ function createScript(filePath, onload = null) {
 // L33t err0r handling
 function errorData(errorData) {
   console.log('ERROR:' + errorData);
+}
+
+function loadScripts(totalFilePath) {
+  // Console.log all the files being loaded in script tags for dev purposes
+  console.log("Loading the following into script tags:" + totalFilePath)
+  //Creating script tags for each game file and appending them to the game.html header
+  var scriptElement = document.createElement('script');
+  //scriptElement.setAttribute('async', 'async')
+  scriptElement.setAttribute('src', totalFilePath);
+
+  document.body.appendChild(scriptElement);
 }
