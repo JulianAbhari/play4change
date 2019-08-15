@@ -50,7 +50,7 @@ function setup() {
       // Declaring the currentFilePath variable to the
       // currentRelativePath array without the first element.
       currentFilePath.shift()
-      // Setting teh global filePaths at the current index
+      // Setting the global filePaths at the current index
       // to the currentFilePath array and converting currentFilePath
       // to a string with each element joined by a "/".
       filePaths[i] = currentFilePath.join("/")
@@ -94,7 +94,7 @@ function submitGame() {
     //Declaring gameEntry to be the information for that particular game
     //(like the key, the gamename, and the file paths),
     //while pushing the data to the database.
-    gameEntry = ref.push(data);
+    var gameEntry = ref.push(data);
     //Print out an array holding the root database reference point
     //and the unique key
     console.log(gameEntry.path.pieces_);
@@ -106,7 +106,8 @@ function submitGame() {
     gameData.append("gameKey", gameEntry.path.pieces_[1])
     gameData.append("gameName", gameName)
     for (var i = 0; i < filteredFiles.length; i++) {
-      gameData.append("gameFiles", filteredFiles[i]);
+      //gameData.append("fileRelativePath", filePaths[i])
+      gameData.append("gameFiles", {filePaths[i] : filteredFiles[i]});
     }
 
     fetch(fileUploadUrl, {

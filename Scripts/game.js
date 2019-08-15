@@ -24,46 +24,24 @@ urlKey = params.get('game')
 // Getting only the game with the requested key from Firebase
 var ref = database.ref('Games/' + urlKey);
 // Binding callbacks to a specific event called 'value'
-ref.on('value', loadFilePaths, errorData);
+ref.on('value', getGameContents, errorData);
 
-function loadFilePaths(firebaseData) {
+function getGameContents(firebaseData) {
   // Initializing game to be the set of info under the certain key in Firebase
   var game = firebaseData.val();
   // Initializing gameName (string) and filePaths(array) using the game returned from Firebase
   gameName = game["gameName"]
   filePaths = game["filePaths"]
 
-  date = new Date()
-  console.log(`Loading p5.js at ${date.getTime()}`)
-  createScript("../Libraries/p5.js", loadP5Libraries)
-
-
-  // // Create a new script in game.html and give it the src of the game file(s)
-  // for (var i = 0; i < filePaths.length; i += 1) {
-  //   // Create the complete path to the game files in our file server, and for the gameName
-  //   // We have to parse it to replace the "%20" with " "
-  //   var totalFilePath = "../Games/" + urlKey + "/" + gameName.replace(/%20/g, " ") + "/" + filePaths[i]
-  //
-  //   // Console.log all the files being loaded in script tags for dev purposes
-  //   console.log("Loading the following into script tags:" + totalFilePath)
-  //
-  //   //Creating script tags for each game file and appending them to the game.html header
-  //   createScript(totalFilePath)
-  // }
-
-  //console.log("Loading the p5 libraries into script tags")
-
-  // Now, our problem is determining which libraries to load first when the user
-  // gives us their game... and then to actually have the game WORK
-
-  // createScript("../Libraries/p5.js")
-  // createScript("../Libraries/p5.dom.js")
-  // createScript("../Libraries/p5.sound.js")
+  // Load the p5.js first, then afterwards call 'loadP5Libraries'
+  createScript("../Libraries/p5.js", loadGameLibraries)
 }
 
-function loadP5Libraries() {
-  date = new Date()
-  console.log(`Loading other libraries at ${date.getTime()}`)
+/**
+TODO:
+createScript() for each non-'p5.js' library in the game's Libraries folder
+*/
+function loadGameLibraries() {
   createScript("../Libraries/p5.dom.js", loadGameScripts)
 }
 
@@ -75,37 +53,36 @@ function loadGameScripts() {
     // We have to parse it to replace the "%20" with " "
     var totalFilePath = "../Games/" + urlKey + "/" + gameName.replace(/%20/g, " ") + "/" + filePaths[i]
 
-    // Console.log all the files being loaded in script tags for dev purposes
-    date = new Date()
-    console.log(`Loading into script tags: ${totalFilePath} at ${date.getTime()}`)
-
-    //Creating script tags for each game file and appending them to the game.html header
-    createScript(totalFilePath, function(){
-      new p5();
-    })
+    // If this is the last element in the files array...
+    if (i == (filePaths.length - 1)) {
+      // Create the script tags and load in the file from the
+      // 'totalFilePath', and also provide the callback function
+      // where p5 gets instantiated.
+      createScript(totalFilePath, function(){
+        // Only create a new p5 object when the last file has loaded.
+        // By doing this, p5 is triggered to start playing the game.
+        new p5();
+       })
+    } else {
+      createScript(totalFilePath)
+    }
   }
 }
 
-function createScript(filePath, onload = null) {
-  var newScript = document.createElement("SCRIPT")
-  newScript.src = filePath
-  newScript.async = false
-  newScript.onload = onload
-  document.head.appendChild(newScript)
+/**
+createScript (scriptFilePath, callbackFunction) => null
+*/
+function createScript(totalFilePath, onload = null) {
+  // Creates new script tag for the game file and appends it to the game.html header
+  var scriptElement = document.createElement('script');
+  scriptElement.src = totalFilePath
+  // scriptElement.async = false
+  scriptElement.onload = onload
+
+  document.body.appendChild(scriptElement);
 }
 
 // L33t err0r handling
 function errorData(errorData) {
   console.log('ERROR:' + errorData);
-}
-
-function loadScripts(totalFilePath) {
-  // Console.log all the files being loaded in script tags for dev purposes
-  console.log("Loading the following into script tags:" + totalFilePath)
-  //Creating script tags for each game file and appending them to the game.html header
-  var scriptElement = document.createElement('script');
-  //scriptElement.setAttribute('async', 'async')
-  scriptElement.setAttribute('src', totalFilePath);
-
-  document.body.appendChild(scriptElement);
 }
