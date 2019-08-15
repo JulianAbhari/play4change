@@ -87,8 +87,6 @@ function submitGame() {
     // (like the key, the gamename, and the file paths),
     // while pushing the data to the database.
     var gameEntry = ref.push(data);
-    //console.log(gameEntry.path.pieces_);
-
 
     var gameData = new FormData();
     // Appending to the form data object, the current gameEntry's pieces

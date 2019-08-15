@@ -42,7 +42,25 @@ TODO:
 createScript() for each non-'p5.js' library in the game's Libraries folder
 */
 function loadGameLibraries() {
-  createScript("../Libraries/p5.dom.js", loadGameScripts)
+  //createScript("../Libraries/p5.dom.js", loadGameScripts)
+  var librariesFound = false
+  for (var i = 0; i < filePaths.length; i += 1) {
+    var filePathArray = filePaths[i].split("/")
+    if (filePathArray[0] == "libraries") {
+      filePathArray.shift()
+      filePathArray.join("/")
+      if (i = filePaths.length - 1) {
+        createScript(`../Games/${urlKey}/${gameName}/libraries/${filePathArray}`, loadGameScripts)
+      } else {
+        createScript(`../Games/${urlKey}/${gameName}/libraries/${filePathArray}`)
+      }
+      librariesFound = true
+    }
+  }
+  if (!librariesFound) {
+    console.log("libraries not found")
+    createScript("../Libraries/p5.dom.js", loadGameScripts)
+  }
 }
 
 function loadGameScripts() {
@@ -58,11 +76,11 @@ function loadGameScripts() {
       // Create the script tags and load in the file from the
       // 'totalFilePath', and also provide the callback function
       // where p5 gets instantiated.
-      createScript(totalFilePath, function(){
+      createScript(totalFilePath, function() {
         // Only create a new p5 object when the last file has loaded.
         // By doing this, p5 is triggered to start playing the game.
         new p5();
-       })
+      })
     } else {
       createScript(totalFilePath)
     }
