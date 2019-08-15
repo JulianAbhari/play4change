@@ -1,5 +1,6 @@
-//The link to the magical website that taught us everything we know about node.js:
-//https://glitch.com/edit/#!/node-http?path=server.js:2:31
+// The link to the magical website that taught us everything we know about node.js:
+// READ: https://glitch.com/edit/#!/node-http?path=server.js:2:31
+// READ: https://www.sitepoint.com/beginners-guide-node-package-manager/
 
 // Importing web-based protocol module
 var http = require("http");
@@ -51,54 +52,47 @@ http.createServer(function(req, res) {
 
   // When the player uploads a new game, upload.js sends us a POST request
   if (req.method === "POST") {
-    // var body = ''
-    // req.on('data', chunk => {
-    //   console.log("putting data in body")
-    //   body += chunk.toString()
-    // })
-    // req.on('end', () => {
-    //   console.log(body)
-    //   res.end("ok")
-    // })
-
     var busboy = new Busboy({
       headers: req.headers
     });
     // Declaring local variables so they can be used in all the busboy event handlers
-    var gameKey
-    var gameName
-    var newGamePath
+    var currentFilePath
 
+    // This fires whenever our busboy recieves a field from the posted formData
     busboy.on("field", function(fieldName, val) {
-      if (fieldName === "gameKey") {
-        gameKey = val;
-      }
-      if (fieldName === "gameName") {
-        gameName = val
+      if (fieldName === "filePath") {
+        currentFilePath = val;
       }
     })
-    busboy.on("file", function(fieldName, fileStream, fileName) {
+
+    // This fires whenever our busboy recieves a file from the posted formData
+    busboy.on("file", function(fieldName, fileStream) {
       if (fieldName === "gameFiles") {
-        //Parsing the fileName to figure out if we need to make any more new directories
-        console.log("fileName: " + fileName)
-        var filePathArray = fileName.split("/")
-        console.log("filePathArray: " + filePathArray)
+
+        // Parsing the fileName to figure out if we need to make any more new directories
+        // Ex: "key/gameName/Libraries/sketch.js"
+        var filePathArray = currentFilePath.split("/")
+        // Ex: ["key", "gameName", "Libraries", "sketch.js"]
+        // fileName is the last element in filePathArray, the actual name of the file
         fileName = filePathArray.pop()
-        console.log("fileName: " + fileName)
-        newGamePath = path.join(__dirname, "Games", gameKey, gameName, filePathArray.join("/"))
-        console.log("filePathArray.join('/'): " + filePathArray.join('/'))
-        console.log("newGamePath" + newGamePath)
+        var newGamePath = path.join(__dirname, "Games", filePathArray.join('/'))
+        // Ex: "Users/Julian/Programs/Play4Change/Games/key/gameName/Libraries"
+        // If the folders for the path to the file don't exist, make them
         if (!fs.existsSync(newGamePath)) {
           fs.mkdirSync(newGamePath, {
             recursive: true
           })
         }
-
         var newFilePath = path.join(newGamePath, fileName)
+        // Ex: "Users/Julian/Programs/Play4Change/Games/key/gameName/Libraries/sketch.js"
+
+        // Create a new file and send the busboy readstream into it
         var writeStream = fs.createWriteStream(newFilePath)
         fileStream.pipe(writeStream)
       }
     })
+
+    // When our busboy finishes receiving the POST...
     busboy.on("finish", function() {
       console.log("POST REQUEST FINISHED")
       res.writeHead(200, {
@@ -107,8 +101,6 @@ http.createServer(function(req, res) {
     })
     req.pipe(busboy);
   }
-
-  // READ: https://www.sitepoint.com/beginners-guide-node-package-manager/
 
   if (req.method === "GET") {
 

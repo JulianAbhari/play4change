@@ -1,10 +1,5 @@
-var life = true
-var x
-var y
-var speed
-console.log("Green Pre-setup!")
+
 function setup() {
-  console.log("Green is running!")
   EndAllLife = createButton("End all life");
   EndAllLife.mousePressed(endAllLife);
   EndAllLife.position(0, 300);
@@ -23,7 +18,6 @@ function endAllLife() {
 }
 
 function draw() {
-  console.log("Drawing!")
   clear();
   fill(0, 255, 0);
   if (life) {
