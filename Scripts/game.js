@@ -61,7 +61,6 @@ function loadGameLibraries() {
   }
   if (!librariesFound) {
     console.log("libraries not found")
-    createScript("../Libraries/p5.dom.js", loadGameScripts)
   }
 }
 
