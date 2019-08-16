@@ -41,11 +41,20 @@ function setup() {
   }, false);
 }
 
+/**
+ Returns the same array of files without any redundant files we don't want to save
+ (.DS_Store, p5.js, etc.)
+*/
 function filterFiles(files) {
   var sortedFiles = [];
   for (var i = 0; i < files.length; i++) {
-    if (files[i].name != ".DS_Store") {
-      sortedFiles.push(files[i]);
+    switch(files[i].name){
+      case ".DS_Store":
+        break;
+      case "p5.js":
+        break;
+      default:
+        sortedFiles.push(files[i]);
     }
   }
   return sortedFiles;
@@ -89,11 +98,9 @@ function submitGame() {
     var gameEntry = ref.push(data);
 
     var gameData = new FormData();
-    // Appending to the form data object, the current gameEntry's pieces
-    // which is an array of where the data is going in Firebase ("/Games")
-    // and the newly created key.
-    //gameData.append("gameKey", gameEntry.path.pieces_[1])
-    //gameData.append("gameName", gameName)
+    // Appending the key and the game file to the form data object for each game file.
+    // The key is from the current gameEntry's “pieces”
+    // （which is an array of where the data is going in Firebase i.e. "/Games"）
     for (var i = 0; i < filteredFiles.length; i++) {
       var key = gameEntry.path.pieces_[1]
       var filePath = `${key}/${gameName}/${filePaths[i]}`
