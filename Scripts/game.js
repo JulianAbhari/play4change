@@ -46,12 +46,14 @@ function loadGameLibraries() {
   var librariesFound = false
   for (var i = 0; i < filePaths.length; i += 1) {
     var filePathArray = filePaths[i].split("/")
-    if (filePathArray[0] == "libraries") {
+    if (filePathArray[0].toLowerCase() == "libraries") {
       filePathArray.shift()
       filePathArray.join("/")
-      if (i = filePaths.length - 1) {
+      if (i == filePaths.length - 1) {
+        console.log(`Last library loading from: ../Games/${urlKey}/${gameName}/libraries/${filePathArray}`)
         createScript(`../Games/${urlKey}/${gameName}/libraries/${filePathArray}`, loadGameScripts)
       } else {
+        console.log(`Loading library from: ../Games/${urlKey}/${gameName}/libraries/${filePathArray}`)
         createScript(`../Games/${urlKey}/${gameName}/libraries/${filePathArray}`)
       }
       librariesFound = true
