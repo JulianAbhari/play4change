@@ -38,52 +38,59 @@ function getGameContents(firebaseData) {
 }
 
 /**
-TODO:
 createScript() for each non-'p5.js' library in the game's Libraries folder
 */
 function loadGameLibraries() {
-  //createScript("../Libraries/p5.dom.js", loadGameScripts)
   var librariesFound = false
-  for (var i = 0; i < filePaths.length; i += 1) {
+  var libraryFilePaths = []
+
+  // Put any files within libraries folder into libraryFilePaths[]
+  for (var i = 0; i < filePaths.length; i++){
     var filePathArray = filePaths[i].split("/")
     if (filePathArray[0].toLowerCase() == "libraries") {
-      filePathArray.shift()
-      filePathArray.join("/")
-      if (i == filePaths.length - 1) {
-        console.log(`Last library loading from: ../Games/${urlKey}/${gameName}/libraries/${filePathArray}`)
-        createScript(`../Games/${urlKey}/${gameName}/libraries/${filePathArray}`, loadGameScripts)
-      } else {
-        console.log(`Loading library from: ../Games/${urlKey}/${gameName}/libraries/${filePathArray}`)
-        createScript(`../Games/${urlKey}/${gameName}/libraries/${filePathArray}`)
-      }
       librariesFound = true
+      libraryFilePaths.push(filePathArray.join("/"))
     }
   }
+  // createScript for all files in libraryFilePaths[]
+  for (var i = 0; i < libraryFilePaths.length; i++) {
+      if (i == libraryFilePaths.length - 1) {
+        console.log(`Last library loading from: ../Games/${urlKey}/${gameName}/${libraryFilePaths[i]}`)
+        createScript(`../Games/${urlKey}/${gameName}/${libraryFilePaths[i]}`, loadGameScripts)
+      } else {
+        console.log(`Loading library from: ../Games/${urlKey}/${gameName}/${libraryFilePaths[i]}`)
+        createScript(`../Games/${urlKey}/${gameName}/${libraryFilePaths[i]}`)
+      }
+    }
   if (!librariesFound) {
-    console.log("libraries not found")
+    console.log("No libraries found! Loading in game scripts...")
+    loadGameScripts()
   }
 }
 
 function loadGameScripts() {
   // Create a new script in game.html and give it the src of the game file(s)
   for (var i = 0; i < filePaths.length; i += 1) {
+    
+    // Only create scripts for .js files
+    if (filePaths[i].split(".").pop() == "js") {
+      // Create the complete path to the game files in our file server, and for the gameName
+      // We have to parse it to replace the "%20" with " "
+      var totalFilePath = "../Games/" + urlKey + "/" + gameName.replace(/%20/g, " ") + "/" + filePaths[i]
 
-    // Create the complete path to the game files in our file server, and for the gameName
-    // We have to parse it to replace the "%20" with " "
-    var totalFilePath = "../Games/" + urlKey + "/" + gameName.replace(/%20/g, " ") + "/" + filePaths[i]
-
-    // If this is the last element in the files array...
-    if (i == (filePaths.length - 1)) {
-      // Create the script tags and load in the file from the
-      // 'totalFilePath', and also provide the callback function
-      // where p5 gets instantiated.
-      createScript(totalFilePath, function() {
-        // Only create a new p5 object when the last file has loaded.
-        // By doing this, p5 is triggered to start playing the game.
-        new p5();
-      })
-    } else {
-      createScript(totalFilePath)
+      // If this is the last element in the files array...
+      if (i == (filePaths.length - 1)) {
+        // Create the script tags and load in the file from the
+        // 'totalFilePath', and also provide the callback function
+        // where p5 gets instantiated.
+        createScript(totalFilePath, function() {
+          // Only create a new p5 object when the last file has loaded.
+          // By doing this, p5 is triggered to start playing the game.
+          new p5();
+        })
+      } else {
+        createScript(totalFilePath)
+      }
     }
   }
 }
