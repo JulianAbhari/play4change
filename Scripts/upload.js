@@ -103,7 +103,7 @@ function submitGame() {
     // （which is an array of where the data is going in Firebase i.e. "/Games"）
     for (var i = 0; i < filteredFiles.length; i++) {
       var key = gameEntry.path.pieces_[1]
-      var filePath = `${key}/${gameName}/${filePaths[i]}`
+      var filePath = `${key}/${filePaths[i]}`
       gameData.append("filePath", filePath)
       gameData.append("gameFiles", filteredFiles[i]);
     }

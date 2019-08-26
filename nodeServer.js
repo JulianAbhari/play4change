@@ -70,13 +70,13 @@ http.createServer(function(req, res) {
       if (fieldName === "gameFiles") {
 
         // Parsing the fileName to figure out if we need to make any more new directories
-        // Ex: "key/gameName/Libraries/sketch.js"
+        // Ex: "key/Libraries/sketch.js"
         var filePathArray = currentFilePath.split("/")
-        // Ex: ["key", "gameName", "Libraries", "sketch.js"]
+        // Ex: ["key", "Libraries", "sketch.js"]
         // fileName is the last element in filePathArray, the actual name of the file
         fileName = filePathArray.pop()
         var newGamePath = path.join(__dirname, "Games", filePathArray.join('/'))
-        // Ex: "Users/Julian/Programs/Play4Change/Games/key/gameName/Libraries"
+        // Ex: "Users/Julian/Programs/Play4Change/Games/key/Libraries"
         // If the folders for the path to the file don't exist, make them
         if (!fs.existsSync(newGamePath)) {
           fs.mkdirSync(newGamePath, {
@@ -84,7 +84,7 @@ http.createServer(function(req, res) {
           })
         }
         var newFilePath = path.join(newGamePath, fileName)
-        // Ex: "Users/Julian/Programs/Play4Change/Games/key/gameName/Libraries/sketch.js"
+        // Ex: "Users/Julian/Programs/Play4Change/Games/key/Libraries/sketch.js"
 
         // Create a new file and send the busboy readstream into it
         var writeStream = fs.createWriteStream(newFilePath)
