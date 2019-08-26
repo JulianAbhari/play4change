@@ -142,6 +142,7 @@ http.createServer(function(req, res) {
         // If the asset does not exist or ext is not recognized by mimeType list,
         // respond with a 404 Not Found
         console.log('File does not exist: ' + pathName)
+        console.log('File does not exist: ' + filePath)
         res.writeHead(404, {
           'Content-Type': 'text/plain'
         })

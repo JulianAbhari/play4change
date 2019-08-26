@@ -29,6 +29,8 @@ function setup() {
   textBox = createP("play4change!");
   textBox.mouseOver(changeStyle);
   textBox.mouseOut(revertStyle);
+  imageTest = createElement("img")
+  imageTest.attribute("src", "Resources/Drov.jpeg")
 
   radius = massSlider.value();
   mass = radius / 2;
