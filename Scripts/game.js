@@ -61,11 +61,11 @@ function loadGameLibraries() {
   // createScript for all files in libraryFilePaths[]
   for (var i = 0; i < libraryFilePaths.length; i++) {
     if (i == libraryFilePaths.length - 1) {
-      console.log(`Last library loading from: ../Games/${urlKey}/${gameName}/${libraryFilePaths[i]}`)
-      createScript(`../Games/${urlKey}/${gameName}/${libraryFilePaths[i]}`, loadGameScripts.bind(this, filePathsWithoutLibraries))
+      console.log(`Last library loading from: ../Games/${urlKey}/${libraryFilePaths[i]}`)
+      createScript(`../Games/${urlKey}/${libraryFilePaths[i]}`, loadGameScripts.bind(this, filePathsWithoutLibraries))
     } else {
-      console.log(`Loading library from: ../Games/${urlKey}/${gameName}/${libraryFilePaths[i]}`)
-      createScript(`../Games/${urlKey}/${gameName}/${libraryFilePaths[i]}`)
+      console.log(`Loading library from: ../Games/${urlKey}/${libraryFilePaths[i]}`)
+      createScript(`../Games/${urlKey}/${libraryFilePaths[i]}`)
     }
   }
   if (!librariesFound) {
@@ -82,7 +82,7 @@ function loadGameScripts(scriptPaths) {
     if (scriptPaths[i].split(".").pop() == "js") {
       // Create the complete path to the game files in our file server, and for the gameName
       // We have to parse it to replace the "%20" with " "
-      var totalFilePath = "../Games/" + urlKey + "/" + gameName.replace(/%20/g, " ") + "/" + scriptPaths[i]
+      var totalFilePath = "../Games/" + urlKey + "/" + scriptPaths[i]
 
       // If this is the last element in the files array...
       if (i == (scriptPaths.length - 1)) {
