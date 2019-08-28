@@ -24,6 +24,7 @@ const mimeTypes = {
   '.ico': 'image/x-icon',
   '.png': 'image/png',
   '.jpg': 'image/jpeg',
+  '.jpeg': 'image/jpeg',
   '.gif': 'image/gif',
   '.svg': 'image/svg+xml',
   '.json': 'application/json',
@@ -129,10 +130,20 @@ http.createServer(function(req, res) {
       pathName += ext
     }
 
-    // Construct a valid file path so the requested file can be accessed
-    // path.join concatenates the current directory (.../play4change)
-    // and the requested file's pathName
-    const filePath = path.join(__dirname, pathName);
+    var filePath
+    if (fromResources(pathName)) {
+      var gameKey = req.headers.referer.split("=").pop()
+      resourcePath = pathName.split("/")
+      resourcePath.shift()
+      resourcePath.shift()
+      filePath = path.join(__dirname, `Games/${gameKey}/${resourcePath.join("/")}`)
+    } else{
+      // Construct a valid file path so the requested file can be accessed
+      // path.join concatenates the current directory (.../play4change)
+      // and the requested file's pathName
+      filePath = path.join(__dirname, pathName)
+    }
+
 
     // Check if the requested asset exists on the server
     // TODO: Replace deprecated fs.exists() by just starting
@@ -163,5 +174,9 @@ http.createServer(function(req, res) {
   }
 }).listen(port);
 // The server only listens to requests on port 3000 (obviously...)
+
+function fromResources(pathName) {
+  return (pathName.toLowerCase().search("resources") != -1)
+}
 
 console.log(`Server listening on port: ${port}`)
