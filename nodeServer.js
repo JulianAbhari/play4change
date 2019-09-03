@@ -28,6 +28,7 @@ const mimeTypes = {
   '.gif': 'image/gif',
   '.svg': 'image/svg+xml',
   '.json': 'application/json',
+  '.wav': 'audio/wav',
   '.woff': 'font/woff',
   '.woff2': 'font/woff2'
 }
