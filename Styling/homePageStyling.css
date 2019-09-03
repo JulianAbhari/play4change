@@ -12,6 +12,8 @@ h1 {
 button {
   background-color: pink;
   border-color: #FF3366;
+  margin: 10px;
+  padding: 5px;
 }
 
 ul {
