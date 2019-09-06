@@ -132,11 +132,18 @@ http.createServer(function(req, res) {
     }
 
     var filePath
+    // If the request is for a game resource, reroute the path to the game file
     if (fromResources(pathName)) {
-      var gameKey = req.headers.referer.split("=").pop()
-      resourcePath = pathName.split("/")
-      resourcePath.shift()
-      resourcePath.shift()
+      // Get the game key from the url parameters from the HTTP headers
+      var gameKey = req.headers.referer.split("=").pop();
+
+      // Get an array of all the file path's components & make them lowercase
+      var resourcePath = pathName.toLowerCase().split("/");
+      // Get the index of the "resources" folder, and chop off anything before it
+      var resourcesIndex = resourcePath.indexOf("resources");
+      resourcePath = resourcePath.slice(resourcesIndex);
+
+      // Make the valid file path to the game's folder
       filePath = path.join(__dirname, `Games/${gameKey}/${resourcePath.join("/")}`)
     } else{
       // Construct a valid file path so the requested file can be accessed
@@ -176,6 +183,8 @@ http.createServer(function(req, res) {
 }).listen(port);
 // The server only listens to requests on port 3000 (obviously...)
 
+
+//Checks to see if a path contains "resources/"
 function fromResources(pathName) {
   return (pathName.toLowerCase().search("resources") != -1)
 }
