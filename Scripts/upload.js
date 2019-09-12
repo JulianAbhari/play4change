@@ -51,8 +51,8 @@ function filterFiles(files) {
     switch(files[i].name){
       case ".DS_Store":
         break;
-      case "p5.js":
-        break;
+      // case "p5.js":
+      //   break;
       default:
         sortedFiles.push(files[i]);
     }

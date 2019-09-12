@@ -131,62 +131,50 @@ http.createServer(function(req, res) {
       pathName += ext
     }
 
-    var filePath
-    // If the request is for a game resource, reroute the path to the game file
-    if (fromResources(pathName)) {
-      // Get the game key from the url parameters from the HTTP headers
-      var gameKey = req.headers.referer.split("=").pop();
+    /*
+    Outdated Resource Folder Nonsense
+    **/
+    // var filePath
+    // // If the request is for a game resource, reroute the path to the game file
+    // if (fromResources(pathName)) {
+    //   // Get the game key from the url parameters from the HTTP headers
+    //   var gameKey = req.headers.referer.split("=").pop();
+    //
+    //   // Get an array of all the file path's components & make them lowercase
+    //   var resourcePath = pathName.toLowerCase().split("/");
+    //   // Get the index of the "resources" folder, and chop off anything before it
+    //   var resourcesIndex = resourcePath.indexOf("resources");
+    //   resourcePath = resourcePath.slice(resourcesIndex);
+    //
+    //   // Make the valid file path to the game's folder
+    //   filePath = path.join(__dirname, `Games/${gameKey}/${resourcePath.join("/")}`)
+    // } else{
+    //   // Construct a valid file path so the requested file can be accessed
+    //   // path.join concatenates the current directory (.../play4change)
+    //   // and the requested file's pathName
+    //   filePath = path.join(__dirname, pathName)
+    // }
 
-      // Get an array of all the file path's components & make them lowercase
-      var resourcePath = pathName.toLowerCase().split("/");
-      // Get the index of the "resources" folder, and chop off anything before it
-      var resourcesIndex = resourcePath.indexOf("resources");
-      resourcePath = resourcePath.slice(resourcesIndex);
-
-      // Make the valid file path to the game's folder
-      filePath = path.join(__dirname, `Games/${gameKey}/${resourcePath.join("/")}`)
-    } else{
-      // Construct a valid file path so the requested file can be accessed
-      // path.join concatenates the current directory (.../play4change)
-      // and the requested file's pathName
-      filePath = path.join(__dirname, pathName)
-    }
-
-
-    // Check if the requested asset exists on the server
-    // TODO: Replace deprecated fs.exists() by just starting
-    // readStream and handling any errors
-    fs.exists(filePath, function(exists, err) {
-      if (!exists || !mimeTypes[ext]) {
-        // If the asset does not exist or ext is not recognized by mimeType list,
-        // respond with a 404 Not Found
-        console.log('File does not exist: ' + pathName)
-        console.log('File does not exist: ' + filePath)
-        res.writeHead(404, {
-          'Content-Type': 'text/plain'
-        })
-        res.write('404 Not Found')
-        res.end()
-        return
+    // Read and write the file with the appropriate content type
+    fs.readFile(__dirname + pathName, function(err, data) {
+      if (err) {
+        res.writeHead(500);
+        return res.end('Error loading ' + pathName);
       }
 
-      // Otherwise, respond with a 200 OK status,
-      // and add the correct content-type header
       res.writeHead(200, {
-        "Content-Type": mimeTypes[ext]
-      })
-      // Read file from the computer and stream it to the response
-      const fileStream = fs.createReadStream(filePath);
-      fileStream.pipe(res);
+        'Content-Type': mimeTypes[ext]
+      });
+      res.end(data);
     })
   }
 }).listen(port);
 // The server only listens to requests on port 3000 (obviously...)
 
 
-//Checks to see if a path contains "resources/"
-function fromResources(pathName) {
-  return (pathName.toLowerCase().search("resources") != -1)
-}
+// //Checks to see if a path contains "resources/"
+// function fromResources(pathName) {
+//   return (pathName.toLowerCase().search("resources") != -1)
+// }
 
 console.log(`Server listening on port: ${port}`)
