@@ -1,3 +1,7 @@
+var life;
+var x;
+var y;
+var speed;
 
 function setup() {
   EndAllLife = createButton("End all life");
