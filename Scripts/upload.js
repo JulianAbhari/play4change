@@ -2,6 +2,9 @@
 var filePaths;
 // Declaring a gameName variable which will later be set to the gameNameInputField
 var gameName;
+var studioName;
+var plays;
+
 var fileUploadUrl;
 var filteredFiles;
 
@@ -39,6 +42,9 @@ function setup() {
       output.appendChild(item);
     }
   }, false);
+
+  studioName = "Jichael";
+  plays = 0;
 }
 
 /**
@@ -90,7 +96,8 @@ function submitGame() {
     // Declaring an array of data to be pushed to Firebase Database
     var data = {
       gameName: gameName,
-      filePaths: filePaths
+      studioName: studioName,
+      plays: plays,
     };
     // Declaring gameEntry to be the information for that particular game
     // (like the key, the gamename, and the file paths),

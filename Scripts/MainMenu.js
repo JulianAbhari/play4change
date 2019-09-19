@@ -1,6 +1,7 @@
 var params;
 
 function setup() {
+  createCanvas(800, 600);
   // Your web app's Firebase configuration
   var firebaseConfig = {
     apiKey: "AIzaSyDoR0UWaZJv954WzyPLuV-Z2_bAAxuveL8",
