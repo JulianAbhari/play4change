@@ -1,7 +1,37 @@
 var params;
+var butt;
 
 function setup() {
   createCanvas(800, 600);
+  var props1 = {
+    href: "pages/play?game=-LpGy4YIZUit2u9RS9I7",
+    onclick: function(dingle){
+      createP(dingle);
+    }.bind(this, "I am dingle"),
+    image: "../Games/-LomADUNagUXFrCVmi82/Resources/kasiske.png",
+    texts: ["hey whats up", "oh nothing much", "I'm great, thanks!"],
+    width: 150,
+    height: 200,
+    x: 100,
+    y:50,
+  }
+  var props2 = {
+    // onclick: function(dingle){
+    //   createP(dingle);
+    // }.bind(this, "I am dingle"),
+    onclick: ()=>{
+      fill(200);
+      rect(270,20,200,300);
+    },
+    image: "../Games/-LomADUNagUXFrCVmi82/Resources/drov.jpeg",
+    texts: ["This is Drov!", "1.7k views"],
+    width: 150,
+    height: 200,
+    x: 300,
+    y:50,
+  }
+  butt = new Button(props1);
+  butt2 = new Button(props2);
   // Your web app's Firebase configuration
   var firebaseConfig = {
     apiKey: "AIzaSyDoR0UWaZJv954WzyPLuV-Z2_bAAxuveL8",
@@ -22,6 +52,16 @@ function setup() {
 
   // Setting params variable to the current URL which we get from the URLSearchParams object
   params = new URLSearchParams(window.location.search);
+}
+
+function draw() {
+  butt.draw();
+  butt2.draw();
+}
+
+function mousePressed() {
+  butt.isClicked(mouseX, mouseY);
+  butt2.isClicked(mouseX, mouseY);
 }
 
 // This is a callback function that handles the data from Firebase
