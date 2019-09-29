@@ -8,7 +8,7 @@ function setup() {
   createCanvas(1280, 660);
   // Setting params variable to the current URL which we get from the URLSearchParams object
   params = new URLSearchParams(window.location.search);
-  mainColorPallete = new ColorPallete(color(200, 210, 200), color(200, 230, 200), color(100, 150, 100));
+  mainColorPallete = new ColorPallete(color(210, 210, 210), color(200, 230, 200), color(100, 150, 100));
   mainPage = new StandardPage({
     pageWidth: 1280,
     pageHeight: 1000,
