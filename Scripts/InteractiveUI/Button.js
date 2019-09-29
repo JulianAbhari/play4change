@@ -34,10 +34,10 @@ class Button {
         text(this.texts[i], this.x, this.y + 15 + this.h + 20*i);
       }
     } else {
-      for (var i in this.texts) {
+      for (var i = 0; i < this.texts.length; i += 1) {
         fill(this.textColor);
-        textSize(this.textSize);
-        text(this.texts[0], this.x, this.y + (this.h / 2));
+        textSize(this.textSize - 2*i);
+        text(this.texts[i], this.x, this.y + (this.h / 2) + 12*i);
       }
     }
   }

@@ -43,7 +43,7 @@ function setup() {
     }
   }, false);
 
-  studioName = "Jichael";
+  studioName = "Fiddlestix";
   plays = 0;
 }
 
