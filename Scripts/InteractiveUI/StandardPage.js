@@ -3,8 +3,8 @@ class StandardPage {
   constructor(parameters) {
     this.x = parameters.x || 0;
     this.y = parameters.y || 0;
-    this.pageWidth = parameters.pageWidth || 1280;
-    this.pageHeight = parameters.pageHeight || 800;
+    this.pageWidth = parameters.pageWidth || windowWidth;
+    this.pageHeight = parameters.pageHeight || windowHeight;
     this.header = parameters.header || "";
     this.textSize = parameters.textSize || 24;
     this.colorPallete = parameters.colorPallete || new ColorPallete(color(210, 210, 210), color(230, 230, 230), color(0, 0, 0));
@@ -26,6 +26,14 @@ class StandardPage {
     // Displaying children
     for (var i = 0; i < this.children.length; i += 1) {
       this.children[i].draw();
+    }
+  }
+
+  resize() {
+    this.pageWidth = windowWidth;
+    this.pageHeight = windowHeight;
+    for (var child of this.children) {
+      child.resize(this.pageWidth, this.pageHeight);
     }
   }
 

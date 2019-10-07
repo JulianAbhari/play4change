@@ -5,13 +5,14 @@ var uploadGameButton;
 
 function setup() {
   initializeFirebase()
-  createCanvas(1280, 660);
+  createCanvas(windowWidth, windowHeight);
+  window.addEventListener("resize", resize);
   // Setting params variable to the current URL which we get from the URLSearchParams object
   params = new URLSearchParams(window.location.search);
   mainColorPallete = new ColorPallete(color(210, 210, 210), color(200, 230, 200), color(100, 150, 100));
   mainPage = new StandardPage({
-    pageWidth: 1280,
-    pageHeight: 1000,
+    pageWidth: windowWidth,
+    pageHeight: windowHeight,
     header: "Play4Change",
     textSize: 30,
     colorPallete: mainColorPallete
@@ -19,9 +20,9 @@ function setup() {
   gamePageColorPallete = new ColorPallete(color(210, 210, 210), color(230, 230, 230), color(0, 0, 0));
   gamePage = new StandardPage({
     x: 0,
-    y: 100,
-    pageWidth: 1280,
-    pageHeight: 600,
+    y: 0.1 * mainPage.pageHeight,
+    pageWidth: windowWidth,
+    pageHeight: windowHeight,
     header: "Games",
     textSize: 30,
     colorPallete: gamePageColorPallete
@@ -33,8 +34,10 @@ function setup() {
     textColor: color(100, 150, 100),
     width: 140,
     height: 40,
-    x: 1280 - 160,
-    y: 40
+    xPercent: 0.85,
+    yPercent: 0.1,
+    pageWidth: mainPage.pageWidth,
+    pageHeight: mainPage.pageHeight,
   })
   mainPage.addChild(gamePage);
   mainPage.addChild(uploadGameButton);
@@ -91,8 +94,10 @@ function loadGames(firebaseData) {
       texts: [gameContents.gameName, `Plays: ${gameContents.plays}`, `Studio: ${gameContents.studioName}`],
       width: 150,
       height: 200,
-      x: 180 * i + 20,
-      y: 220
+      xPercent: .2 + .1*i,
+      yPercent: .4,
+      pageWidth: gamePage.pageWidth,
+      pageHeight: gamePage.pageHeight,
     }));
     gamePage.addChild(gameButtons[i]);
   }
@@ -104,6 +109,11 @@ function mousePressed() {
   for (var i = 0; i < gameButtons.length; i += 1) {
     gameButtons[i].isClicked(mouseX, mouseY);
   }
+}
+
+function resize(){
+  mainPage.resize();
+  gamePage.resize();
 }
 
 // This is a callback function for firebase if it fails to load up the data.

@@ -1,5 +1,5 @@
 /*
-Button(redirect, image, text1, text2, ...);
+Button({href, onclick, image, [texts]});
 image optional, if no image text1 will be displayed in its place
 */
 class Button {
@@ -17,8 +17,12 @@ class Button {
     this.textColor = props.textColor || color(0, 0, 0);
     this.w = props.width || 100;
     this.h = props.height || 100;
-    this.x = props.x || 0;
-    this.y = props.y || 0;
+    this.xPercent = props.xPercent || 0;
+    this.yPercent = props.yPercent || 0;
+    this.pageWidth = props.pageWidth || 0;
+    this.pageHeight = props.pageHeight || 0;
+    this.x = props.xPercent * props.pageWidth || 0;
+    this.y = props.yPercent * props.pageHeight || 0;
   }
 
   draw() {
@@ -53,5 +57,13 @@ class Button {
         this.onclick();
       }
     }
+  }
+
+  resize(newPageWidth, newPageHeight) {
+    this.pageWidth = newPageWidth;
+    this.pageHeight = newPageHeight;
+    this.x = this.xPercent * newPageWidth;
+    this.y = this.yPercent * newPageHeight;
+
   }
 }
