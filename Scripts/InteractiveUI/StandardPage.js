@@ -18,7 +18,7 @@ class StandardPage {
     rect(this.x, this.y, this.pageWidth, this.pageHeight);
     // Displaying header frame
     fill(this.colorPallete.secondaryColor);
-    rect(this.x, this.y, this.pageWidth, this.pageHeight / 10);
+    rect(this.x, this.y, this.pageWidth, this.pageHeight * 0.1);
     // Displaying header
     fill(this.colorPallete.accentColor);
     textSize(this.textSize);
@@ -29,9 +29,9 @@ class StandardPage {
     }
   }
 
-  resize() {
-    this.pageWidth = windowWidth;
-    this.pageHeight = windowHeight;
+  resize(pageWidth, pageHeight) {
+    this.pageWidth = pageWidth;
+    this.pageHeight = pageHeight;
     for (var child of this.children) {
       child.resize(this.pageWidth, this.pageHeight);
     }

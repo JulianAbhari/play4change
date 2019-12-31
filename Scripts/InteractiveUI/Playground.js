@@ -1,18 +1,27 @@
-var params;
-var standardPage;
-var gameButtons = [];
+var pageWidth;
+var pageHeight;
 var uploadGameButton;
+var canvas;
+var mainPage;
+var gamePage;
+
+var gameButtons = [];
+var gameButtonWidth = 150;
+var gameButtonHeight = 200;
+var gameButtonWidthBuffer = 50;
+var gameButtonHeightBuffer = 50;
+var gameButtonTextHeight = 60;
 
 function setup() {
   initializeFirebase()
-  createCanvas(windowWidth, windowHeight);
+  pageWidth = windowWidth;
+  pageHeight = windowHeight
+  canvas = createCanvas(pageWidth, pageHeight);
   window.addEventListener("resize", resize);
-  // Setting params variable to the current URL which we get from the URLSearchParams object
-  params = new URLSearchParams(window.location.search);
   mainColorPallete = new ColorPallete(color(210, 210, 210), color(200, 230, 200), color(100, 150, 100));
   mainPage = new StandardPage({
-    pageWidth: windowWidth,
-    pageHeight: windowHeight,
+    pageWidth: pageWidth,
+    pageHeight: pageHeight,
     header: "Play4Change",
     textSize: 30,
     colorPallete: mainColorPallete
@@ -21,8 +30,8 @@ function setup() {
   gamePage = new StandardPage({
     x: 0,
     y: 0.1 * mainPage.pageHeight,
-    pageWidth: windowWidth,
-    pageHeight: windowHeight,
+    pageWidth: pageWidth,
+    pageHeight: pageHeight,
     header: "Games",
     textSize: 30,
     colorPallete: gamePageColorPallete
@@ -32,12 +41,12 @@ function setup() {
     texts: [`Upload a Game`],
     textSize: 18,
     textColor: color(100, 150, 100),
+    pageWidth: mainPage.pageWidth,
+    pageHeight: mainPage.pageHeight,
     width: 140,
     height: 40,
     xPercent: 0.85,
-    yPercent: 0.1,
-    pageWidth: mainPage.pageWidth,
-    pageHeight: mainPage.pageHeight,
+    yPercent: 0.05,
   })
   mainPage.addChild(gamePage);
   mainPage.addChild(uploadGameButton);
@@ -91,16 +100,16 @@ function loadGames(firebaseData) {
     gameButtons.push(new Button({
       href: `pages/play?game=${currentKey}`,
       image: "../Games/-LomADUNagUXFrCVmi82/Resources/drov.jpeg",
-      texts: [gameContents.gameName, `Plays: ${gameContents.plays}`, `Studio: ${gameContents.studioName}`],
+      texts: [gameContents.gameName, `Studio: ${gameContents.studioName}`, `Plays: ${gameContents.plays}`],
       width: 150,
       height: 200,
-      xPercent: .2 + .1*i,
-      yPercent: .4,
       pageWidth: gamePage.pageWidth,
       pageHeight: gamePage.pageHeight,
     }));
     gamePage.addChild(gameButtons[i]);
   }
+  populateGames();
+  resize();
 }
 
 function mousePressed() {
@@ -111,9 +120,33 @@ function mousePressed() {
   }
 }
 
-function resize(){
-  mainPage.resize();
-  gamePage.resize();
+function resize() {
+  populateGames();
+  pageWidth = windowWidth;
+  canvas = createCanvas(pageWidth, pageHeight);
+  mainPage.resize(pageWidth, pageHeight);
+  gamePage.y = mainPage.pageHeight * 0.1;
+  gamePage.resize(pageWidth, pageHeight);
+}
+
+function populateGames() {
+  var columns = floor(pageWidth / (gameButtonWidth + gameButtonWidthBuffer));
+  var minimumPageHeight = floor((windowHeight * 0.6) + ((gameButtons.length * (gameButtonHeight + gameButtonTextHeight + gameButtonHeightBuffer)) / columns));
+  if (minimumPageHeight > windowHeight) {
+    pageHeight = minimumPageHeight;
+  } else {
+    pageHeight = windowHeight;
+  }
+  var rows = floor(pageHeight / (gameButtonHeight + gameButtonTextHeight + gameButtonHeightBuffer));
+
+  for (var y = 0; y < rows; y += 1) {
+    for (var x = 0; x < columns; x += 1) {
+      if (x + y * columns < gameButtons.length) {
+        gameButtons[x + y * columns].x = (gameButtonWidthBuffer * (x + 1)) + (x * gameButtonWidth);
+        gameButtons[x + y * columns].y = (pageHeight * 0.2) + (gameButtonHeightBuffer * (y + 1)) + (gameButtonTextHeight * y) + (y * gameButtonHeight);
+      }
+    }
+  }
 }
 
 // This is a callback function for firebase if it fails to load up the data.
