@@ -72,13 +72,13 @@ function filterFiles(files) {
 function submitGame() {
   gameName = document.getElementById("gameNameInputField").value;
   filteredFiles = filterFiles(document.getElementById("gameUploader").files);
+  thumbnail = document.getElementById("thumbnailUploader").files[0];
 
   //If the user hasn't provided both their files and their game's name...
-  if (filteredFiles.length == 0 || gameName == null) {
+  if (filteredFiles.length == 0 || gameName == null || thumbnail == null) {
     //...a new element is displayed telling the user to fill in the fields.
     createP("Please fill in all the fields");
   } else {
-
     // For each file, add its relative path within the upload folder to filePaths[]
     for (var i = 0; i < filteredFiles.length; i++) {
       var currentRelativePath = filteredFiles[i].webkitRelativePath
@@ -108,12 +108,14 @@ function submitGame() {
     // Appending the key and the game file to the form data object for each game file.
     // The key is from the current gameEntry's “pieces”
     // （which is an array of where the data is going in Firebase i.e. "/Games"）
+    var key = gameEntry.path.pieces_[1]
     for (var i = 0; i < filteredFiles.length; i++) {
-      var key = gameEntry.path.pieces_[1]
       var filePath = `${key}/${filePaths[i]}`
       gameData.append("filePath", filePath)
       gameData.append("gameFiles", filteredFiles[i]);
     }
+    gameData.append("filePath", `${key}/thumbnail.png`);
+    gameData.append("gameFiles", thumbnail);
 
     for (var pair of gameData.entries()) {
       console.log(pair[0] + ', ' + pair[1])
@@ -130,5 +132,7 @@ function submitGame() {
       .then(function(data) {
         console.log(data);
       });
+
+    createP(`Game was uploaded successfully!`);
   }
 }

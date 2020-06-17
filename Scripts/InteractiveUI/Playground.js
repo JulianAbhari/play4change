@@ -99,7 +99,7 @@ function loadGames(firebaseData) {
     console.log(`pages/play?game=${currentKey}`);
     gameButtons.push(new Button({
       href: `pages/play?game=${currentKey}`,
-      image: "../Games/-LomADUNagUXFrCVmi82/Resources/drov.jpeg",
+      image: `../Games/${currentKey}/thumbnail.png`,
       texts: [gameContents.gameName, `Studio: ${gameContents.studioName}`, `Plays: ${gameContents.plays}`],
       width: 150,
       height: 200,

@@ -77,7 +77,6 @@ function loadGameLibraries() {
 function loadGameScripts(scriptPaths) {
   // Create a new script in game.html and give it the src of the game file(s)
   for (var i = 0; i < scriptPaths.length; i += 1) {
-
     // Only create scripts for .js files
     if (scriptPaths[i].split(".").pop() == "js") {
       // Create the complete path to the game files in our file server, and for the gameName

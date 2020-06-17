@@ -21,9 +21,12 @@
     <h1>Play 4 Change!</h1>
     <!-- No dragging right now :( -->
     <!-- <p id="dropbox">Drag your game here!</p> -->
-    <p> Upload your file here!</p>
+    <p> Upload your game file(s) here!</p>
+    <label>Game Files:</label>
     <input type="file" id="gameUploader" name="fileList" webkitdirectory multiple />
-    <input type="text" id="gameNameInputField" placeholder="What would you like to call your game?">
+    <input type="text" id="gameNameInputField" placeholder="Name your game!">
+    <label>Thumbnail:</label>
+    <input type="file" id="thumbnailUploader" name="img" accept="image/*">
     <input type="submit" onclick="submitGame()" value="Upload">
     <ul id="fileListing"></ul>
   </center>

@@ -1,12 +1,12 @@
 var uploadGameButton;
 
 function setup() {
-  createCanvas(1280, 660);
+  createCanvas(windowWidth, windowHeight);
   fill(0);
   mainColorPallete = new ColorPallete(color(210, 210, 210), color(200, 230, 200), color(100, 150, 100));
   mainPage = new StandardPage({
-    pageWidth: 1280,
-    pageHeight: 1000,
+    pageWidth: windowWidth,
+    pageHeight: windowHeight,
     header: "Play4Change",
     textSize: 30,
     colorPallete: mainColorPallete
