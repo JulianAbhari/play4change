@@ -9,21 +9,17 @@ var fileUploadUrl;
 var filteredFiles;
 
 function setup() {
-  fileUploadUrl = "../nodeServer.js";
-  filePaths = [];
-  // Your web app's Firebase configuration
-  var firebaseConfig = {
-    apiKey: "AIzaSyDoR0UWaZJv954WzyPLuV-Z2_bAAxuveL8",
-    authDomain: "play4change-470f1.firebaseapp.com",
-    databaseURL: "https://play4change-470f1.firebaseio.com",
-    projectId: "play4change-470f1",
-    storageBucket: "play4change-470f1.appspot.com",
-    messagingSenderId: "880047762615",
-    appId: "1:880047762615:web:777da0438e81baa1"
-  };
-  // Initializing the firebase database and it's current configuration
-  firebase.initializeApp(firebaseConfig);
-
+  initializeFirebase();
+  createCanvas(windowWidth - 4, windowHeight - 4);
+  fill(0);
+  mainColorPallete = new ColorPallete(color(210, 210, 210), color(200, 230, 200), color(100, 150, 100));
+  mainPage = new StandardPage({
+    pageWidth: windowWidth,
+    pageHeight: windowHeight,
+    header: "Play4Change: Upload your Game!",
+    textSize: 30,
+    colorPallete: mainColorPallete
+  });
   // Setting the HTML gameUploader element's callback function
   // This executes when the user has selected which files to upload.
   document.getElementById("gameUploader").addEventListener("change", function(event) {
@@ -45,6 +41,10 @@ function setup() {
 
   studioName = "Fiddlestix";
   plays = 0;
+}
+
+function draw() {
+  mainPage.draw();
 }
 
 /**
@@ -135,4 +135,21 @@ function submitGame() {
 
     createP(`Game was uploaded successfully!`);
   }
+}
+
+function initializeFirebase() {
+  fileUploadUrl = "../nodeServer.js";
+  filePaths = [];
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyDoR0UWaZJv954WzyPLuV-Z2_bAAxuveL8",
+    authDomain: "play4change-470f1.firebaseapp.com",
+    databaseURL: "https://play4change-470f1.firebaseio.com",
+    projectId: "play4change-470f1",
+    storageBucket: "play4change-470f1.appspot.com",
+    messagingSenderId: "880047762615",
+    appId: "1:880047762615:web:777da0438e81baa1"
+  };
+  // Initializing the firebase database and it's current configuration
+  firebase.initializeApp(firebaseConfig);
 }

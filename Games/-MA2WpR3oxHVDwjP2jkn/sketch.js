@@ -2,7 +2,7 @@ var vehicles = [];
 var path;
 
 function setup() {
-  createCanvas(800, 600);
+  createCanvas(900, 470);
   for (var i = 0; i < 10; i += 1) {
     vehicles.push(new Vehicle(random(width), random(height)));
   }
