@@ -21,13 +21,12 @@
 
 <body>
   <center>
-    <label>Game Files:</label>
-    <input type="file" id="gameUploader" name="fileList" webkitdirectory multiple />
+    <input type="file" id="gameUploadButton" webkitdirectory multiple/>
     <input type="text" id="gameNameInputField" placeholder="Name your game!">
-    <label>Thumbnail:</label>
     <input type="file" id="thumbnailUploader" name="img" accept="image/*">
-    <input type="submit" onclick="submitGame()" value="Upload">
-    <ul id="fileListing"></ul>
+    <input type="submit" id="submitGame" onclick="submitGame()" value="Upload">
+    <ul id="fileListing">
+    </ul>
   </center>
 </body>
 

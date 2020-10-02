@@ -17,20 +17,21 @@ button {
 }
 
 ul {
-  list-style-type: none;
-  margin: 0px;
-  padding: 12px;
-  overflow: hidden;
-  background-color: bisque;
+  display: block;
+  margin: 10px;
+  padding: 0px;
+  background-color: rgb(200, 230, 200);
 }
 
 li {
   float: left;
   border-width: thick;
-  border-color: coral;
-  display: inline-block;
+  display: block;
   padding: 8px;
+  font-size: 1.25em;
+  font-weight: 700;
   text-align: center;
+  color: rgb(100, 150, 100);
 }
 
 li a {
@@ -39,6 +40,8 @@ li a {
   border-width: thick;
   color: #FF3366;
 }
+
+
 
 body {
   margin: 0;
@@ -49,6 +52,40 @@ body {
 iframe {
   /* border: none; */
 }
+
+.inputFile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+p {
+  font-size: 1.25em;
+  font-weight: 700;
+  color: rgb(200, 100, 100);
+  background-color: rgb(230, 200, 200);
+  display: inline-block;
+  padding: 8px;
+}
+
+.fileLabel {
+    cursor: pointer;
+    font-size: 1.25em;
+    font-weight: 700;
+    color: rgb(100, 150, 100);
+    background-color: rgb(200, 230, 200);
+    display: inline-block;
+    padding: 8px;
+}
+
+.fileLabel:hover {
+    color: rgb(200, 230, 200);
+    background-color: rgb(100, 150, 100);
+}
+
 
 #dropbox {
   border-style: dashed;
